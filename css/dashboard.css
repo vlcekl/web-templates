@@ -1,9 +1,11 @@
 :root {
     --dblue: #008;
+    --lblue: #55F;
+    --lgreen: #181;
     font-family: sans-serif;
 }
 /* Large Screens */
-body {
+.main-container {
     height: 100vh;
     margin: 0;
     display: grid;
@@ -38,6 +40,11 @@ header img {
 
 nav {
     grid-area: nv;
+    background-color: var(--lgreen);
+}
+
+nav h2 {
+    text-align: center;
 }
 
 section {
@@ -46,7 +53,10 @@ section {
 }
 
 footer {
-   grid-area: ft;
+    grid-area: ft;
+    color: white;
+    background-color: var(--lblue);
+    border: 1px solid black;
 }
 
 #nestedGrid {
@@ -66,12 +76,10 @@ footer {
 }
 
 #two {
-    background-image: url("./two_sleep.jpg");
     background-size: cover;
 }
 
 #three {
-    background-image: url("./two_sleep.jpg");
     background-size: cover;
 }
 
