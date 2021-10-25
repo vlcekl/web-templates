@@ -8,21 +8,33 @@
     <body class="main-container">
         <header>
             <img src= "https://www.computerhope.com/cdn/media/logo-200-gray.png">
-            <h1>Header2</h1>
+            <h1>Header</h1>
         </header>
         <nav>
             <h2>Controls</h2>
-            <input type="radio" id="one" name="main-choice" value="one" checked>
-            <label for="one">Summary</label>
-            <input type="radio" id="two" name="main-choice" value="two">
-            <label for="two">Growers</label>
+            <fieldset>
+                <legend>Choice</legend>
+                <label for="one">Summary</label>
+                <label for="two">Growers</label>
+            </fieldset>Details
+            <details>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae? Atque optio mollitia commodi beatae facilis eligendi reprehenderit doloribus, qui culpa aliquam minus nam quibusdam nobis natus earum laudantium consectetur! Eveniet perferendis iusto voluptatibus eum voluptates dolores sit nam, quis hic aliquid nihil deleniti. Neque.
+            </details>
         </nav>
         <section>
-            <div id="nestedGrid">
-                <div id="one" class="photoBox"></div>
-                <div id="two" class="photoBox"></div>
-                <div id="three" class="photoBox"></div>
-                <div id="four" class="photoBox"></div>
+            <input type="radio" id="one" class="main-radio" name="other-choice" value="one" checked>
+            <input type="radio" id="two" class="main-radio" name="other-choice" value="two">
+            <div id="section-summary" class="nestedGrid">
+                <div class="photoBox orange"></div>
+                <div class="photoBox white"></div>
+                <div class="photoBox white"></div>
+                <div class="photoBox blue"></div>
+            </div>
+            <div id="section-grower" class="nestedGrid">
+                <div class="photoBox white"></div>
+                <div class="photoBox orange"></div>
+                <div class="photoBox blue"></div>
+                <div class="photoBox white"></div>
             </div>
         </section>
         <footer>

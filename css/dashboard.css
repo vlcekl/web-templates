@@ -1,7 +1,9 @@
 :root {
-    --dblue: #008;
-    --lblue: #55F;
-    --lgreen: #181;
+    --bay-dblue: #13364D;
+    --bay-lblue: #13B9F1;
+    --bay-lgreen: #8ECC39;
+    --bay-red: #FF3162;
+    --sbarcol: #999;
     font-family: sans-serif;
 }
 /* Large Screens */
@@ -18,13 +20,17 @@
      "ft ft";
 }
 
+.main-radio {
+/*    display: none; */
+}
+
 header {
     display: flex;
     align-content: center;
     grid-area: hd;
     font-size: 30px;
     color: white;
-    background-color: var(--dblue);
+    background-color: var(--bay-dblue);
 }
 
 header h1 {
@@ -40,11 +46,16 @@ header img {
 
 nav {
     grid-area: nv;
-    background-color: var(--lgreen);
+    background-color: var(--sbarcol);
 }
 
 nav h2 {
     text-align: center;
+}
+
+nav legend {
+    font-size: 1.5em;
+    color: white;
 }
 
 section {
@@ -55,35 +66,43 @@ section {
 footer {
     grid-area: ft;
     color: white;
-    background-color: var(--lblue);
+    background-color: var(--bay-lblue);
     border: 1px solid black;
 }
 
-#nestedGrid {
+.main-radio {
+    display: none;
+}
+
+.nestedGrid {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% 50%;
 }
 
+#one:checked ~ #section-summary {
+    display: none;
+}
+
+#two:checked ~ #section-grower {
+    display: none;
+}
+
 .photoBox {
     height: 500px;
-    border: 1px solid green;
+    border: 1px solid var(--bay-red);
 }
 
-#one {
-    background-color: orange;
+.orange {
+    background-color: var(--bay-lblue);
     background-size: cover;
 }
 
-#two {
+.white {
     background-size: cover;
 }
 
-#three {
-    background-size: cover;
-}
-
-#four {
-    background-color: turquoise;
+.blue {
+    background-color: var(--bay-lgreen);
     background-size: cover;
 }
