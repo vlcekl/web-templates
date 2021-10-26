@@ -3,10 +3,12 @@
     --bay-lblue: #13B9F1;
     --bay-lgreen: #8ECC39;
     --bay-red: #FF3162;
-    --sbarcol: #999;
+    --sidebar-col: #BBB;
+    --hover-col: #888;
+    --checked-col: #555;
     font-family: sans-serif;
 }
-/* Large Screens */
+
 .main-container {
     height: 100vh;
     margin: 0;
@@ -14,64 +16,130 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-     "hd hd"
-     "nv sc"
-     "nv sc"
-     "ft ft";
-}
-
-.main-radio {
-/*    display: none; */
+     "header header"
+     "nav article"
+     "nav article"
+     "footer footer";
 }
 
 header {
     display: flex;
     align-content: center;
-    grid-area: hd;
-    font-size: 30px;
+    grid-area: header;
     color: white;
     background-color: var(--bay-dblue);
 }
 
-header h1 {
+header p {
     padding-left: 0.2em;
     margin-top: auto;
+    font-size: 3.0em;
     margin-bottom: auto;
 }
 
 header img {
-    width: 100px;
-    height: 100px;
+    height: 80px;
+    width: auto;
+    margin: 0.2em;
 }
 
 nav {
-    grid-area: nv;
-    background-color: var(--sbarcol);
+    grid-area: nav;
+    background-color: var(--sidebar-col);
 }
 
 nav h2 {
     text-align: center;
 }
 
-nav legend {
+nav fieldset {
+    display: flex;
+    flex-direction: row;
     font-size: 1.5em;
     color: white;
+    margin-top: 0.5em;
 }
 
-section {
-    grid-area: sc;
+nav fieldset legend {
+    font-size: 1.0em;
+    color: black;
+}
+
+nav fieldset label {
+    background-color: #4CAF50;
+    background-color: #AAA;
+    border: none;
+    border-radius: 0px;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin: 0;
+    cursor: pointer;
+}
+
+nav fieldset label:hover {
+    background-color: var(--hover-col);
+}
+
+nav fieldset label:active {
+  box-shadow: 0 2px #6661;
+  transform: translateY(2px);
+}
+
+#btn-summary:checked ~ nav #label-summary {
+    background-color: var(--checked-col);
+}
+
+#btn-grower:checked ~ nav #label-grower {
+    background-color: var(--checked-col);
+}
+
+nav #grower-fieldset {
+    display: none;
+}
+
+#btn-grower:checked ~ nav #grower-fieldset {
+    display: flex;
+}
+
+#grower-fieldset select {
+    width: 100%;
+}
+
+article {
+    grid-area: article;
     overflow: auto;
 }
 
 footer {
-    grid-area: ft;
+    grid-area: footer;
     color: white;
     background-color: var(--bay-lblue);
     border: 1px solid black;
 }
 
-.main-radio {
+body > input {
     display: none;
+}
+
+section {
+    display: none;
+}
+
+section > input {
+    display: none;
+}
+
+#btn-summary:checked ~ article #section-summary {
+    display: block;
+}
+
+#btn-grower:checked ~ article #section-grower {
+    display: block;
 }
 
 .nestedGrid {
@@ -80,13 +148,6 @@ footer {
     grid-template-rows: 50% 50%;
 }
 
-#one:checked ~ #section-summary {
-    display: none;
-}
-
-#two:checked ~ #section-grower {
-    display: none;
-}
 
 .photoBox {
     height: 500px;

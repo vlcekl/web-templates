@@ -5,40 +5,80 @@
         <title>Dashboard</title>
         <link rel="stylesheet" href="css/dashboard.css">
     </head>
+
     <body class="main-container">
+
+        <!--Hidden input elements holding globally accessible states-->
+        <input type="radio" id="btn-summary" name="section-choice" checked>
+        <input type="radio" id="btn-grower" name="section-choice">
+
+        <!--Visible UI elements-->
         <header>
-            <img src= "https://www.computerhope.com/cdn/media/logo-200-gray.png">
-            <h1>Header</h1>
+            <img src= "images/skull-svgrepo-com.svg">
+            <p>Header</p>
+
         </header>
+
+        <!--Controls for article section choices-->
         <nav>
-            <h2>Controls</h2>
             <fieldset>
-                <legend>Choice</legend>
-                <label for="one">Summary</label>
-                <label for="two">Growers</label>
-            </fieldset>Details
+                <legend>Select View</legend>
+                <label for="btn-summary" id="label-summary">Summary</label>
+                <label for="btn-grower" id="label-grower">Growers</label>
+            </fieldset>
+            <fieldset id="grower-fieldset">
+                <legend>Select Grower</legend>
+                <select id="grower-sel">
+                    <option selected hidden>Grower email</option>
+                    <option>g1</option>
+                    <option>g2</option>
+                </select>
+            </fieldset>
+        </nav>
+
+        <!--Main results display area-->
+        <article>
+            <!--Market research summary section-->
+            <section id="section-summary">
+                <!--Hidden input elements related to summary-->
+                <input type="radio" id="btn-summ-growers" name="summary-choice" checked>
+                <input type="radio" id="btn-seed-yield" name="summary-choice">
+                <input type="radio" id="btn-price" name="summary-choice">
+
+                <!--Tabs for summary panels-->
+                <label for="btn-summ-growers" id="label-summ-growers">Grower Summary</label>
+                <label for="btn-seed-yield" id="label-seed-yield">Seeding Rates</label>
+                <label for="btn-price" id="label-price">Pricing</label>
+
+                <div class="nestedGrid">
+                    <div class="photoBox orange"></div>
+                    <div class="photoBox white"></div>
+                    <div class="photoBox white"></div>
+                    <div class="photoBox blue"></div>
+                </div>
+            </section>
+
+            <!--Market research grower-specific section-->
+            <section id="section-grower">
+                <!--Hidden input elements related to growers-->
+                <input type="radio" id="btn-info" name="grower-choice" checked>
+                <input type="radio" id="btn-interview" name="grower-choice">
+
+                <!--Tabs for grower panels-->
+                <label for="btn-info" id="label-info">Info</label>
+                <label for="btn-interview" id="label-interview">Interview</label>
+
+                <div class="nestedGrid">
+                    <div class="photoBox white"></div>
+                    <div class="photoBox orange"></div>
+                </div>
+            </section>
+        </article>
+        <footer>
             <details>
+                <summary>Info</summary>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae? Atque optio mollitia commodi beatae facilis eligendi reprehenderit doloribus, qui culpa aliquam minus nam quibusdam nobis natus earum laudantium consectetur! Eveniet perferendis iusto voluptatibus eum voluptates dolores sit nam, quis hic aliquid nihil deleniti. Neque.
             </details>
-        </nav>
-        <section>
-            <input type="radio" id="one" class="main-radio" name="other-choice" value="one" checked>
-            <input type="radio" id="two" class="main-radio" name="other-choice" value="two">
-            <div id="section-summary" class="nestedGrid">
-                <div class="photoBox orange"></div>
-                <div class="photoBox white"></div>
-                <div class="photoBox white"></div>
-                <div class="photoBox blue"></div>
-            </div>
-            <div id="section-grower" class="nestedGrid">
-                <div class="photoBox white"></div>
-                <div class="photoBox orange"></div>
-                <div class="photoBox blue"></div>
-                <div class="photoBox white"></div>
-            </div>
-        </section>
-        <footer>
-            Footer
         </footer>
     </body>
 </html>
