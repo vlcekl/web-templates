@@ -22,6 +22,12 @@
      "footer footer";
 }
 
+/* Global variable */
+.main-container > input {
+    display: none;
+}
+
+
 header {
     display: flex;
     align-content: center;
@@ -115,15 +121,16 @@ article {
     overflow: auto;
 }
 
+#mapid {
+    width: 100%;
+    height: 100%;
+}
+
 footer {
     grid-area: footer;
     color: white;
     background-color: var(--bay-lblue);
     border: 1px solid black;
-}
-
-body > input {
-    display: none;
 }
 
 section {
