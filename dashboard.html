@@ -3,20 +3,22 @@
     <head>
         <meta charset="UTF-8" />
         <title>Dashboard</title>
+        <script defer src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+        <script defer src="js/mychart.js"></script>
         <link rel="stylesheet" href="css/dashboard.css">
     </head>
 
     <body class="main-container">
 
         <!--Hidden input elements holding globally accessible states-->
-        <input type="radio" id="btn-summary" name="section-choice" checked>
-        <input type="radio" id="btn-grower" name="section-choice">
+        <input type="radio" id="btn-summary" name="section-choice" value="section-summary" checked>
+        <input type="radio" id="btn-grower" name="section-choice" value="section-grower">
 
         <!--Visible UI elements-->
         <header>
             <img src= "images/skull-svgrepo-com.svg">
             <p>Header</p>
-
         </header>
 
         <!--Controls for article section choices-->
@@ -52,8 +54,8 @@
 
                 <div class="nestedGrid">
                     <div class="photoBox orange"></div>
-                    <div class="photoBox white"></div>
-                    <div class="photoBox white"></div>
+                    <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
+                    <div id="chart-2" class="ct-chart ct-perfect-fourth"></div>
                     <div class="photoBox blue"></div>
                 </div>
             </section>
@@ -69,8 +71,10 @@
                 <label for="btn-interview" id="label-interview">Interview</label>
 
                 <div class="nestedGrid">
-                    <div class="photoBox white"></div>
+                    <canvas id="mycanvas"></canvas>
                     <div class="photoBox orange"></div>
+                    <div id="chart-3" class="ct-chart ct-perfect-fourth"></div>
+                    <canvas id="mycanvas2"></canvas>
                 </div>
             </section>
         </article>

@@ -142,12 +142,16 @@ section > input {
     display: block;
 }
 
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
 .nestedGrid {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% 50%;
 }
-
 
 .photoBox {
     height: 500px;
