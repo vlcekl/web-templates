@@ -1,0 +1,21 @@
+@use 'config';
+@use 'utilities';
+@use 'buttons';
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: $light-color;
+    font-family: $font-stack;
+    line-height: 1.6;
+}
+
+.showcase {
+    @include set-background($primary-color)
+}
+
+@import 'mobile';

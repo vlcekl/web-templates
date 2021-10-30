@@ -1,12 +1,16 @@
 :root {
+    --bay-backgr: #624963;
     --bay-dblue: #13364D;
+    --bay-dblue: #624963;
     --bay-lblue: #13B9F1;
     --bay-lgreen: #8ECC39;
     --bay-red: #FF3162;
     --sidebar-col: #BBB;
     --hover-col: #888;
     --checked-col: #555;
-    font-family: sans-serif;
+    --font-family: sans-serif;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: var(--font-family-sans-serif);
 }
 
 .main-container {
@@ -85,6 +89,12 @@ nav fieldset label {
     margin: 4px 2px;
     margin: 0;
     cursor: pointer;
+    display: ;
+}
+
+nav fieldset label::before {
+    content: '// ';
+    color: var(--bay-lblue);
 }
 
 nav fieldset label:hover {
@@ -167,10 +177,6 @@ canvas {
 
 .orange {
     background-color: var(--bay-lblue);
-    background-size: cover;
-}
-
-.white {
     background-size: cover;
 }
 
