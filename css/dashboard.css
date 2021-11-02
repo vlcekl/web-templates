@@ -1,19 +1,19 @@
 :root {
-    --bay-backgr: #624963;
+    --bay-dpurple: #624963;
     --bay-dblue: #13364D;
-    --bay-dblue: #624963;
     --bay-lblue: #13B9F1;
     --bay-lgreen: #8ECC39;
     --bay-red: #FF3162;
     --sidebar-col: #BBB;
     --hover-col: #888;
-    --checked-col: #555;
+    --col-checked: #555;
+    --col-deselected: #AAA;
     --font-family: sans-serif;
     --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     font-family: var(--font-family-sans-serif);
 }
 
-.main-container {
+.top-container {
     height: 100vh;
     margin: 0;
     display: grid;
@@ -26,11 +26,38 @@
      "footer footer";
 }
 
-/* Global variable */
-.main-container > input {
+/* All tab selection radio buttons are hidden */
+.tab-button {
     display: none;
 }
 
+/* Colorscheme for all deselected tab labels */
+.tab-label {
+    color: white;
+    background-color: var(--col-deselected);
+}
+
+.tab-label::before {
+    content: "// ";
+    color: var(--bay-dblue);
+}
+
+/* All tab panels are hidden by default */
+.tab-panel {
+    display: none;
+}
+
+/* Selected tab label. Assumes labels directly follow radio buttons */
+.tab-button:checked + .tab-label {
+    background-color: var(--col-checked);
+}
+
+/* Selected tab panel. Assumes labels follow corresponding radio buttons */
+#btn-summ-growers:checked ~ #panel-summ-growers,
+#btn-seed-yield:checked ~ #panel-seed-yield,
+#btn-price:checked ~ #panel-price {
+    display: block;
+}
 
 header {
     display: flex;
@@ -64,37 +91,23 @@ nav h2 {
 
 nav fieldset {
     display: flex;
-    flex-direction: row;
-    font-size: 1.5em;
-    color: white;
+    flex-direction: column;
+    font-size: 1.5rem;
     margin-top: 0.5em;
 }
 
-nav fieldset legend {
-    font-size: 1.0em;
-    color: black;
-}
-
 nav fieldset label {
-    background-color: #4CAF50;
-    background-color: #AAA;
-    border: none;
-    border-radius: 0px;
     color: white;
-    padding: 8px 16px;
+    background-color: var(--col-deselected);
+    padding: 0.5rem 1rem;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    margin: 0;
+    font-size: 1rem;
     cursor: pointer;
-    display: ;
 }
 
 nav fieldset label::before {
     content: '// ';
-    color: var(--bay-lblue);
+    color: var(--bay-dblue);
 }
 
 nav fieldset label:hover {
@@ -106,12 +119,14 @@ nav fieldset label:active {
   transform: translateY(2px);
 }
 
-#btn-summary:checked ~ nav #label-summary {
-    background-color: var(--checked-col);
+#btn-summary:checked ~ nav #label-summary,
+#btn-grower:checked ~ nav #label-grower {
+    background-color: var(--col-checked);
 }
 
-#btn-grower:checked ~ nav #label-grower {
-    background-color: var(--checked-col);
+#btn-summary:checked ~ nav #label-summary::before,
+#btn-grower:checked ~ nav #label-grower::before {
+    color: var(--bay-lblue);
 }
 
 nav #grower-fieldset {
@@ -131,10 +146,6 @@ main {
     overflow: auto;
 }
 
-#mapid {
-    width: 100%;
-    height: 100%;
-}
 
 footer {
     grid-area: footer;
@@ -143,20 +154,15 @@ footer {
     border: 1px solid black;
 }
 
-section {
-    display: none;
-}
-
-section > input {
-    display: none;
-}
-
-#btn-summary:checked ~ main #section-summary {
-    display: block;
-}
-
+/* Show main tab panels */
+#btn-summary:checked ~ main #section-summary,
 #btn-grower:checked ~ main #section-grower {
     display: block;
+}
+
+#mapid {
+    width: 100%;
+    height: 100%;
 }
 
 canvas {
@@ -176,11 +182,11 @@ canvas {
 }
 
 .orange {
-    background-color: var(--bay-lblue);
+    background-color: var(--bay-lgreen);
     background-size: cover;
 }
 
 .blue {
-    background-color: var(--bay-lgreen);
+    background-color: var(--bay-lblue);
     background-size: cover;
 }

@@ -1,3 +1,44 @@
+document.querySelector("#read-button").addEventListener('click', function() {
+	if(document.querySelector("#file-input").files.length == 0) {
+		alert('Error : No file selected');
+		return;
+	}
+
+	// file selected by user
+	let file = document.querySelector("#file-input").files[0];
+
+  console.log("my file: ", file.name, file.type, file.size);
+
+	// new FileReader object
+	let reader = new FileReader();
+
+	// event fired when file reading finished
+	reader.addEventListener('load', function(e) {
+	   // contents of the file
+	    let text = e.target.result;
+      console.log(text);
+
+      // Preprocess into data items and store in sesssionStorage
+      sessionStorage.setItem('data', text);
+      data = JSON.parse(text);
+      Object.entries(data).forEach(p => {
+        console.log(`Key: ${p[0]}, Value: ${p[1]}`);
+        sessionStorage.setItem(p[0], JSON.stringify(p[1]));
+      })
+
+      a = sessionStorage.getItem('b');
+	    document.querySelector("#file-contents").textContent = a;
+	});
+
+	// event fired when file reading failed
+	reader.addEventListener('error', function() {
+	    alert('Error : Failed to read file');
+	});
+
+	// read file as text file
+	reader.readAsText(file);
+});
+
 function draw(id) {
   const canvas = document.getElementById(id);
   if (canvas.getContext) {
@@ -41,32 +82,21 @@ const options_3 = {
     height: 500
 }
 
-// Make plots
+// Chartist.js charts
 new Chartist.Line('#chart-1', data_1);
 new Chartist.Bar('#chart-2', data_2);
 new Chartist.Line('#chart-3', data_3);
 
 // Update newly visible charts when tabs are changed
-const radios = document.querySelectorAll('input[type=radio][name="section-choice"]');
+const radios = document.querySelectorAll('input[type=radio]');
 radios.forEach(radio => radio.addEventListener('change', (event) => {
     const sec = event.currentTarget.value;
     const charts = document.querySelectorAll(`#${sec} .ct-chart`);
     charts.forEach(c => c.__chartist__.update())
 }))
 
-//var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+// Leaflet.js map
 var mymap = L.map('mapid').setView([37.8, -96], 4);
-
-/*
-L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'your.mapbox.access.token'
-}).addTo(mymap);
-*/
 
 var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	maxZoom: 19,

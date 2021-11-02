@@ -15,11 +15,11 @@
         <script defer src="js/mychart.js"></script>
     </head>
 
-    <body class="main-container">
+    <body class="top-container">
 
         <!--Hidden input elements holding globally accessible states-->
-        <input type="radio" id="btn-summary" name="section-choice" value="section-summary" checked>
-        <input type="radio" id="btn-grower" name="section-choice" value="section-grower">
+        <input type="radio" id="btn-summary" class="tab-button" name="main-tab-choice" value="section-summary" checked>
+        <input type="radio" id="btn-grower" class="tab-button" name="main-tab-choice" value="section-grower">
 
         <!--Visible UI elements-->
         <header>
@@ -47,34 +47,45 @@
         <!--Main results display area-->
         <main>
             <!--Market research summary section-->
-            <section id="section-summary">
-                <!--Hidden input elements related to summary-->
-                <input type="radio" id="btn-summ-growers" name="summary-choice" checked>
-                <input type="radio" id="btn-seed-yield" name="summary-choice">
-                <input type="radio" id="btn-price" name="summary-choice">
-
+            <section id="section-summary" class="tab-panel">
                 <!--Tabs for summary panels-->
-                <label for="btn-summ-growers" id="label-summ-growers">Grower Summary</label>
-                <label for="btn-seed-yield" id="label-seed-yield">Seeding Rates</label>
-                <label for="btn-price" id="label-price">Pricing</label>
+                <input type="radio" id="btn-summ-growers" class="tab-button" name="summary-tab-choice" checked>
+                <label for="btn-summ-growers" id="tab-summ-growers" class="tab-label">Grower Summary</label>
+                <input type="radio" id="btn-seed-yield" class="tab-button" name="summary-tab-choice">
+                <label for="btn-seed-yield" id="tab-seed-yield" class="tab-label">Seeding Rates</label>
+                <input type="radio" id="btn-price" class="tab-button" name="summary-tab-choice">
+                <label for="btn-price" id="tab-price" class="tab-label">Pricing</label>
 
-                <div class="nestedGrid">
-                    <div class="photoBox orange"></div>
-                    <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
-                    <div id="chart-2" class="ct-chart ct-perfect-fourth"></div>
-                    <div class="photoBox blue"></div>
+                <!--Summary Growers-->
+                <div class="tab-panel" id="panel-summ-growers">
+                    <div class="photoBox orange">
+                        <input type="file" id="file-input" />
+                        <button id="read-button">Read File</button>
+                        <pre id="file-contents"></pre>
+                    </div>
                 </div>
+
+                <!--Summary Seed & Yield-->
+                <div class="tab-panel" id="panel-seed-yield">
+                    SUMMARY SEED-YIELD
+                    <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
+                </div>
+
+                <!--Summary Price-->
+                <div class="tab-panel" id="panel-price">
+                    SUMMARY PRICE
+                    <div id="chart-2" class="ct-chart ct-perfect-fourth"></div>
+                </div>
+
             </section>
 
             <!--Market research grower-specific section-->
-            <section id="section-grower">
-                <!--Hidden input elements related to growers-->
-                <input type="radio" id="btn-info" name="grower-choice" checked>
-                <input type="radio" id="btn-interview" name="grower-choice">
-
+            <section id="section-grower" class="tab-panel">
                 <!--Tabs for grower panels-->
-                <label for="btn-info" id="label-info">Info</label>
-                <label for="btn-interview" id="label-interview">Interview</label>
+                <input type="radio" id="btn-info" class="tab-button" name="grower-tab-choice" checked>
+                <label for="btn-info" id="tab-info" class="tab-label">Info</label>
+                <input type="radio" id="btn-interview" class="tab-button" name="grower-tab-choice">
+                <label for="btn-interview" id="tab-interview" class="tab-label">Interview</label>
 
                 <div class="nestedGrid">
                     <div id="mapid"></div>
