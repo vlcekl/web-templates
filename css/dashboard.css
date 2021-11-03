@@ -190,3 +190,38 @@ canvas {
     background-color: var(--bay-lblue);
     background-size: cover;
 }
+
+
+/* MODAL */
+
+/* darken page beneath */
+.modal:before {
+    content: "";
+    display: block;
+    background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;  /* new shorthand for top/left/right/bottom: 0 is `inset: 0;` */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10; /* just make sure it's on top */
+}
+
+/* modal window on top */
+.modal .modal-dialog {
+    background: #f0f0f0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 11;
+    /* Format contents */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+/* Disappear modal after navigating to its wrapper element */
+.modal:target {
+    display: none;
+}

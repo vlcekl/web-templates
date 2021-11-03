@@ -15,7 +15,20 @@
         <script defer src="js/mychart.js"></script>
     </head>
 
-    <body class="top-container">
+    <body >
+        <!--Modal window at startup - prompt to load data-->
+        <div class="modal" id="data-loaded">
+            <div class="modal-dialog">
+                <h2>Load data from a local file</h2>
+                <input type="file" id="file-input" />
+                <button id="read-button">Read File</button>
+                <pre id="file-contents"></pre>
+                <a href="#data-loaded" class="btn close">Close</a>
+            </div>
+        </div>
+
+        <!--Main content (grid layout)-->
+        <div class="top-container">
 
         <!--Hidden input elements holding globally accessible states-->
         <input type="radio" id="btn-summary" class="tab-button" name="main-tab-choice" value="section-summary" checked>
@@ -59,9 +72,6 @@
                 <!--Summary Growers-->
                 <div class="tab-panel" id="panel-summ-growers">
                     <div class="photoBox orange">
-                        <input type="file" id="file-input" />
-                        <button id="read-button">Read File</button>
-                        <pre id="file-contents"></pre>
                     </div>
                 </div>
 
@@ -101,5 +111,6 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae? Atque optio mollitia commodi beatae facilis eligendi reprehenderit doloribus, qui culpa aliquam minus nam quibusdam nobis natus earum laudantium consectetur! Eveniet perferendis iusto voluptatibus eum voluptates dolores sit nam, quis hic aliquid nihil deleniti. Neque.
             </details>
         </footer>
+    </div>
     </body>
 </html>
