@@ -1,3 +1,6 @@
+/*
+  File reader
+*/
 document.querySelector("#read-button").addEventListener('click', function() {
 	if(document.querySelector("#file-input").files.length == 0) {
 		alert('Error : No file selected');
@@ -88,7 +91,7 @@ new Chartist.Bar('#chart-2', data_2);
 new Chartist.Line('#chart-3', data_3);
 
 // Update newly visible charts when tabs are changed
-const radios = document.querySelectorAll('input[type=radio]');
+const radios = document.querySelectorAll('input[type=radio][name="main-tab-choice"]');
 radios.forEach(radio => radio.addEventListener('change', (event) => {
     const sec = event.currentTarget.value;
     const charts = document.querySelectorAll(`#${sec} .ct-chart`);
@@ -102,3 +105,24 @@ var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{
 	maxZoom: 19,
 	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(mymap);
+
+
+/* Set up chartist resize observers */
+chartist_obs = new ResizeObserver(entries => {
+  entries.forEach(entry => {
+    entry.target.__chartist__.update()
+  })
+});
+const charts = document.querySelectorAll(`.ct-chart`);
+charts.forEach(c => chartist_obs.observe(c));
+
+/* Set up leaflet resize observers */
+leaflet_obs = new ResizeObserver(entries => {
+  entries.forEach(entry => {
+    const map = L.map(entry.target.id);
+    map.remove();
+    map.invalidateSize()
+  })
+});
+const leaflets = document.querySelectorAll(`.leaflet-map`);
+leaflets.forEach(l => leaflet_obs.observe(l));
