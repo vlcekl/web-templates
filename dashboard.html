@@ -3,19 +3,15 @@
     <head>
         <meta charset="UTF-8" />
         <title>Dashboard</title>
-         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
-        <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-   crossorigin=""></script>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
         <script defer src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
         <link rel="stylesheet" href="css/dashboard.css">
-        <script defer src="js/mychart.js"></script>
+        <script defer src="js/dashboard.js"></script>
     </head>
 
-    <body >
+    <body>
         <!--Modal window at startup - prompt to load data-->
         <div class="modal" id="data-loaded">
             <div class="modal-dialog">
@@ -77,13 +73,11 @@
 
                 <!--Summary Seed & Yield-->
                 <div class="tab-panel" id="panel-seed-yield">
-                    SUMMARY SEED-YIELD
                     <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
                 </div>
 
                 <!--Summary Price-->
                 <div class="tab-panel" id="panel-price">
-                    SUMMARY PRICE
                     <div id="chart-2" class="ct-chart ct-perfect-fourth"></div>
                 </div>
 
@@ -98,17 +92,17 @@
                 <label for="btn-interview" id="tab-interview" class="tab-label">Interview</label>
 
                 <div class="nestedGrid">
-                    <div id="mapid" class="leaflet-map"></div>
+                    <div id="map-usa" class="leaflet-map"></div>
                     <div class="photoBox orange"></div>
                     <div id="chart-3" class="ct-chart ct-perfect-fourth"></div>
-                    <canvas id="mycanvas2"></canvas>
+                    <div id="map-mo" class="leaflet-map"></div>
                 </div>
             </section>
         </main>
         <footer>
             <details>
                 <summary>Info</summary>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae? Atque optio mollitia commodi beatae facilis eligendi reprehenderit doloribus, qui culpa aliquam minus nam quibusdam nobis natus earum laudantium consectetur! Eveniet perferendis iusto voluptatibus eum voluptates dolores sit nam, quis hic aliquid nihil deleniti. Neque.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae?
             </details>
         </footer>
     </div>
