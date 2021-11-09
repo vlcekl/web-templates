@@ -1,15 +1,17 @@
 /*
 	Set up a simple reactive system.
-	The ideas and reactive functionality mostly copied from
+	The idea and code mostly copied from
 	https://piccalil.li/tutorial/build-a-light-and-global-state-system/
 */
 
-// Set up an array of subscribers (general code)
+// Set up an array of subscribers
 window.subscribers = [];
 
-// Proxy handler (general code)
-const handler = {
+// Proxy holding the global state of the system. Initial state read from data
+let state = new Proxy({}, {
   set(state, key, value) {
+	console.log('proxy set');
+
     const oldState = {...state};
 
     state[key] = value;
@@ -18,22 +20,40 @@ const handler = {
 
     return state;
   }
+});
+
+// Initialize state with values provided in a data object
+const initState = function(data) {
+	Object.entries(data).forEach( entry => {
+		state[entry[0]] = entry[1]
+	})
 }
 
-// Initial state holding both data (empty) and default controls (dashboard-specific)
-const defaultState = {
-	data: { data_1: null, data_2: null },  // Start with empty dataset
-	ctrl_1: 0.5, // Default values for dashboard controls
-	ctrl_2: 0.5
-};
+// Update top level object properties to fire the proxy
+const updateState = function(prop) {
+	if (typeof(state[prop]) === "object") {
+		if (Array.isArray(state[prop])) {
+			state[prop] = [...state[prop]]
+		} else {
+			state[prop] = {...state[prop]}
+		}
+	}
+}
 
-// Create proxy holding the global state of the system
-const state = new Proxy(defaultState, handler);
+// Check if state has changed (if not a callback can be exited at the top)
+const hasChangedState = function(state, oldState, prop) {
+	if (typeof(state[prop]) === "undefined" || state[prop] === oldState[prop]) {
+		return false
+	}
+	return true
+}
 
+//---------------------------------------------------------------------
 
 /*
 	Read data file upon user request
 */
+
 document.querySelector("#read-button").addEventListener('click', function() {
 	if(document.querySelector("#file-input").files.length == 0) {
 		alert('Error : No file selected');
@@ -44,12 +64,13 @@ document.querySelector("#read-button").addEventListener('click', function() {
 	const reader = new FileReader();
 
 	// event fired when file reading finished
-	reader.addEventListener('load', function(e) {
-	    state.data = JSON.parse(e.target.result);  // Save to global state proxy
+	reader.addEventListener('load', e => {
+		// Initialize global state with data from the file
+		initState(JSON.parse(e.target.result));
 	});
 
 	// event fired when file reading failed
-	reader.addEventListener('error', function() {
+	reader.addEventListener('error', () => {
 	    alert('Error : Failed to read file');
 	});
 
@@ -61,17 +82,14 @@ document.querySelector("#read-button").addEventListener('click', function() {
 	reader.readAsText(file);
 });
 
-/* 
-	Populate select items using data
+/*
+	Set up input elements
 */
 
 // Create & subscribe callback populating grower select box
 const grower_select = document.getElementById('grower-sel');
 const populate_select = (state, oldState) => {
-	if (typeof(state.data.growers) === "undefined"
-	 || state.data.growers === oldState.data.growers) {
-		return;
-	}
+	if (!hasChangedState(state, oldState, 'inputGrowers')) return;
 
 	grower_select.options.length = 0;  // Reset 
 	// Default disabled option
@@ -79,9 +97,9 @@ const populate_select = (state, oldState) => {
 	grower_select.options[0].setAttribute('hidden', true);
 
 	// Cycle through growers
-	state.data.growers.forEach((g) => {
+	state.inputGrowers.forEach( g => {
 		grower_select.options[grower_select.options.length] = new Option(g)
-	})
+	});
 }
 window.subscribers.push(populate_select);
 
@@ -98,16 +116,15 @@ chart3 = new Chartist.Line('#chart-3', null);
 // Function factory making chart update callbacks
 const update_charts = function(chart, dataset) {
 	return (state, oldState) => {
-		if (typeof(state.data[dataset]) === "undefined"
-		 || state.data[dataset] === oldState.data[dataset]) { return; }
-		chart.update(state.data[dataset]);
+		if (!hasChangedState(state, oldState, dataset)) return;
+		chart.update(state[dataset]);
 	}
 }
 
 // Define and subscribe callbacks updating chart data
-window.subscribers.push(update_charts(chart1, 'data_1'));
-window.subscribers.push(update_charts(chart2, 'data_2'));
-window.subscribers.push(update_charts(chart3, 'data_2'));
+window.subscribers.push(update_charts(chart1, 'data1'));
+window.subscribers.push(update_charts(chart2, 'data2'));
+window.subscribers.push(update_charts(chart3, 'data2'));
 
 // Set up chartist resize observers
 const chartist_obs = new ResizeObserver(entries => {
@@ -146,3 +163,39 @@ const leaflet_obs = new ResizeObserver(entries => {
 });
 const leafletMaps = document.querySelectorAll('.leaflet-map');
 leafletMaps.forEach(c => leaflet_obs.observe(c));
+
+
+/*
+	CANVAS setup for 2D drawing - white noise test
+*/
+const canvas = document.getElementById('testcanvas');
+const ctx = canvas.getContext('2d');
+
+const imageData = ctx.createImageData(canvas.width, canvas.height);
+
+const create_image = () => {
+	// Iterate through every pixel
+	for (let i = 0; i < imageData.data.length; i += 4) {
+        // Modify pixel data - color
+        //imageData.data[i + 0] = Math.floor(Math.random()*256);  // R value
+        //imageData.data[i + 1] = Math.floor(Math.random()*256);  // G value
+        //imageData.data[i + 2] = Math.floor(Math.random()*256);  // B value
+        // Modify pixel data - B & W
+		rnum = Math.floor(Math.random()*256)
+        imageData.data[i + 0] = 0;  // R value
+        imageData.data[i + 1] = rnum;  // G value
+        imageData.data[i + 2] = 0;  // B value
+        imageData.data[i + 3] = 255;  // A value
+	}
+	// Draw image data to the canvas
+	ctx.putImageData(imageData, 0, 0);
+}
+
+
+// Keep generating new white noise images
+const new_frame = function() {
+	create_image()
+	setTimeout(() => requestAnimationFrame(new_frame), 17)
+}
+
+requestAnimationFrame(new_frame);

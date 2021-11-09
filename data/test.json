@@ -1,1 +1,1 @@
-{"growers":["Joe", "Moe", "Toe"],"data_1":{"labels":["Mon","Tue","Wed","Thu","Fri"],"series": [[4, 2, 4, 2, 0] ]},"data_2":{"labels": ["One","Two","Three","Four","Five"],"series": [[7,13,-1,2,-8] ]}}
+{"inputGrowers":["Joe", "Moe", "Toe"],"inputSlider":0.5,"data1":{"labels":["Mon","Tue","Wed","Thu","Fri"],"series": [[4, 2, 4, 2, 0] ]},"data2":{"labels": ["One","Two","Three","Four","Five"],"series": [[7,13,-1,2,-8] ]}}
