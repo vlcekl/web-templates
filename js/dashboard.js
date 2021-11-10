@@ -1,5 +1,5 @@
 /*
-	Set up a simple reactive system.
+	Set up a simple global reactive/state system.
 	The idea and code mostly copied from
 	https://piccalil.li/tutorial/build-a-light-and-global-state-system/
 */
@@ -10,37 +10,46 @@ window.subscribers = [];
 // Proxy holding the global state of the system. Initial state read from data
 let state = new Proxy({}, {
   set(state, key, value) {
-	console.log('proxy set');
-
     const oldState = {...state};
 
-    state[key] = value;
+    retval = Reflect.set(...arguments);
+	console.log('proxy set', retval);
 
     window.subscribers.forEach(callback => callback(state, oldState));
 
-    return state;
+    return retval;
   }
 });
 
 // Initialize state with values provided in a data object
-const initState = function(data) {
+// If props provided, check if data contains all required properties
+const initState = function(data, reqProps = null) {
+	// Validate properties against reqProps
+	if (reqProps) {
+		dataKeys = Object.keys(data);
+		if(!reqProps.every(p => dataKeys.includes(p))) {
+			return false;
+		}
+	}
+	// Assign data properties into state Proxy
 	Object.entries(data).forEach( entry => {
 		state[entry[0]] = entry[1]
 	})
+	return true;
 }
 
 // Update top level object properties to fire the proxy
 const updateState = function(prop) {
-	if (typeof(state[prop]) === "object") {
-		if (Array.isArray(state[prop])) {
-			state[prop] = [...state[prop]]
-		} else {
-			state[prop] = {...state[prop]}
-		}
+	if (!typeof(state[prop]) === "object") return;
+
+	if (Array.isArray(state[prop])) {
+		state[prop] = [...state[prop]]
+	} else {
+		state[prop] = {...state[prop]}
 	}
 }
 
-// Check if state has changed (if not a callback can be exited at the top)
+// Check if state has changed (if not, a callback can be exited right away)
 const hasChangedState = function(state, oldState, prop) {
 	if (typeof(state[prop]) === "undefined" || state[prop] === oldState[prop]) {
 		return false
@@ -49,12 +58,14 @@ const hasChangedState = function(state, oldState, prop) {
 }
 
 //---------------------------------------------------------------------
+// Required properties in the loaded dataset
+const reqProps = ['inputGrowers', 'inputSlider', 'data1', 'data2'];
 
 /*
 	Read data file upon user request
 */
 
-document.querySelector("#read-button").addEventListener('click', function() {
+document.querySelector("#load-button").addEventListener('click', function() {
 	if(document.querySelector("#file-input").files.length == 0) {
 		alert('Error : No file selected');
 		return;
@@ -66,7 +77,9 @@ document.querySelector("#read-button").addEventListener('click', function() {
 	// event fired when file reading finished
 	reader.addEventListener('load', e => {
 		// Initialize global state with data from the file
-		initState(JSON.parse(e.target.result));
+		if(!initState(JSON.parse(e.target.result), reqProps)) {
+			alert('Error : Loaded file does not contain required data');
+		};
 	});
 
 	// event fired when file reading failed

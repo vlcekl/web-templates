@@ -16,10 +16,15 @@
         <div class="modal" id="data-loaded">
             <div class="modal-dialog">
                 <h2>Load data from a local file</h2>
-                <input type="file" id="file-input" />
-                <button id="read-button">Read File</button>
-                <pre id="file-contents"></pre>
-                <a href="#data-loaded" class="btn close">Close</a>
+                <details>
+                    <summary>Info</summary>
+                    Please download file 'input_data.json' from ./data and then open it
+                    in the app.
+                </details>
+                <input type="file" id="file-input" accept=".json" required>
+                <a href="#data-loaded" id="load-file">
+                    <input type="submit" id="load-button" class="load-button" value="Load Data">
+                </a>
             </div>
         </div>
 
@@ -27,8 +32,8 @@
         <div class="top-container">
 
         <!--Hidden input elements holding globally accessible states-->
-        <input type="radio" id="btn-summary" class="tab-button" name="main-tab-choice" value="section-summary" checked>
-        <input type="radio" id="btn-grower" class="tab-button" name="main-tab-choice" value="section-grower">
+        <input type="radio" id="btn-summary" class="tab-switch" name="main-tab-choice" value="section-summary" checked>
+        <input type="radio" id="btn-grower" class="tab-switch" name="main-tab-choice" value="section-grower">
 
         <!--Visible UI elements-->
         <header>
@@ -52,13 +57,13 @@
         <!--Main results display area-->
         <main>
             <!--Market research summary section-->
-            <section id="section-summary" class="tab-panel">
-                <!--Tabs for summary panels-->
-                <input type="radio" id="btn-summ-growers" class="tab-button" name="summary-tab-choice" checked>
+            <section id="section-summary" class="tab-panel tabset">
+                <!--Tab controls for summary panels-->
+                <input type="radio" id="btn-summ-growers" class="tab-switch" name="summary-tab-choice" checked>
                 <label for="btn-summ-growers" id="tab-summ-growers" class="tab-label">Grower Summary</label>
-                <input type="radio" id="btn-seed-yield" class="tab-button" name="summary-tab-choice">
+                <input type="radio" id="btn-seed-yield" class="tab-switch" name="summary-tab-choice">
                 <label for="btn-seed-yield" id="tab-seed-yield" class="tab-label">Seeding Rates</label>
-                <input type="radio" id="btn-price" class="tab-button" name="summary-tab-choice">
+                <input type="radio" id="btn-price" class="tab-switch" name="summary-tab-choice">
                 <label for="btn-price" id="tab-price" class="tab-label">Pricing</label>
 
                 <!--Summary Growers-->
@@ -80,18 +85,35 @@
             </section>
 
             <!--Market research grower-specific section-->
-            <section id="section-grower" class="tab-panel">
-                <!--Tabs for grower panels-->
-                <input type="radio" id="btn-info" class="tab-button" name="grower-tab-choice" checked>
+            <section id="section-grower" class="tab-panel tabset">
+                <!--Tab controls for grower panels-->
+                <input type="radio" id="btn-info" class="tab-switch" name="grower-tab-choice" checked>
                 <label for="btn-info" id="tab-info" class="tab-label">Info</label>
-                <input type="radio" id="btn-interview" class="tab-button" name="grower-tab-choice">
+                <input type="radio" id="btn-interview" class="tab-switch" name="grower-tab-choice">
                 <label for="btn-interview" id="tab-interview" class="tab-label">Interview</label>
 
-                <div class="nestedGrid">
-                    <div id="map-usa" class="leaflet-map"></div>
-                    <div class="photoBox orange"></div>
-                    <div id="chart-3" class="ct-chart ct-perfect-fourth"></div>
-                    <div id="map-mo" class="leaflet-map"></div>
+                <!--Grower info-->
+                <div class="tab-panel" id="panel-info">
+                    <div class='tab-container'>
+                        <div id="map-usa" class="leaflet-map"></div>
+                        <div class="photoBox orange"></div>
+                        <div id="chart-3" class="ct-chart ct-perfect-fourth"></div>
+                        <div id="map-mo" class="leaflet-map"></div>
+                    </div>
+                </div>
+
+                <!--Interview overview-->
+                <div class="tab-panel" id="panel-interview">
+                    <div class='tab-container'>
+                        <h2>Grower Summary</h2>
+                        <h2>Survey</h2>
+                    </div>
+                    <template id="template-interview">
+                        <div class='tab-container'>
+                            <div class="interview-data"></div>
+                            <div class="interview-survey"></div>
+                        </div>
+                    </template>
                 </div>
             </section>
         </main>
@@ -101,6 +123,6 @@
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae?
             </details>
         </footer>
-    </div>
+        </div>
     </body>
 </html>

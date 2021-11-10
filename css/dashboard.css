@@ -29,8 +29,11 @@ body {
      "footer footer";
 }
 
+.tabset {
+}
+
 /* All tab selection radio buttons are hidden */
-.tab-button {
+.tab-switch {
     display: none;
 }
 
@@ -51,15 +54,28 @@ body {
 }
 
 /* Selected tab label. Assumes labels directly follow radio buttons */
-.tab-button:checked + .tab-label {
+.tab-switch:checked + .tab-label {
     background-color: var(--col-checked);
 }
 
 /* Selected tab panel. Assumes labels follow corresponding radio buttons */
 #btn-summ-growers:checked ~ #panel-summ-growers,
 #btn-seed-yield:checked ~ #panel-seed-yield,
-#btn-price:checked ~ #panel-price {
+#btn-price:checked ~ #panel-price,
+#btn-info:checked ~ #panel-info,
+#btn-interview:checked ~ #panel-interview {
     display: block;
+}
+
+#panel-info .tab-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+}
+
+#panel-interview .tab-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
 }
 
 header {
@@ -195,11 +211,13 @@ canvas {
 }
 
 /* modal window on top */
-.modal .modal-dialog {
+.modal-dialog {
     background: #f0f0f0;
+    background-color: #DDD;
     position: fixed;
-    border: 1px solid black;
+    border: 2px solid var(--bay-lblue);
     border-radius: 5px;
+    padding: 1rem;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -207,7 +225,36 @@ canvas {
     /* Format contents */
     display: flex;
     flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+.modal-dialog h2 {
+    color: var(--bay-dblue);
+}
+
+.modal-dialog > * + * {
     text-align: center;
+    margin-right: auto;
+    margin-left: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Load button invisible unless file selected */
+#file-input:invalid + #load-file {
+    display: none;
+}
+
+/*#file-input:valid {
+    display: none;
+}*/
+
+.load-button {
+    background-color: var(--bay-lgreen);
+}
+
+.load-button:hover {
+    background-color: #4A4;
 }
 
 /* Disappear modal after navigating to its wrapper element */
