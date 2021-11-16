@@ -9,109 +9,116 @@ window.subscribers = [];
 
 // Proxy holding the global state of the system. Initial state read from data
 let state = new Proxy({}, {
-  set(state, key, value) {
-    const oldState = {...state};
+	set(state, key, value) {
+		const oldState = { ...state };
 
-    retval = Reflect.set(...arguments);
-	console.log('proxy set', retval);
+		success = Reflect.set(...arguments);
+		console.log('proxy set', success);
 
-    window.subscribers.forEach(callback => callback(state, oldState));
+		window.subscribers.forEach(callback => callback(state, oldState));
 
-    return retval;
-  }
+		return success;
+	}
 });
 
 // Initialize state with values provided in a data object
 // If props provided, check if data contains all required properties
-const initState = function(data, reqProps = null) {
+const initState = function (data, reqProps = null) {
 	// Validate properties against reqProps
 	if (reqProps) {
 		dataKeys = Object.keys(data);
-		if(!reqProps.every(p => dataKeys.includes(p))) {
+		if (!reqProps.every(p => dataKeys.includes(p))) {
 			return false;
 		}
 	}
 	// Assign data properties into state Proxy
-	Object.entries(data).forEach( entry => {
+	Object.entries(data).forEach(entry => {
 		state[entry[0]] = entry[1]
 	})
 	return true;
 }
 
 // Update top level object properties to fire the proxy
-const updateState = function(prop) {
-	if (!typeof(state[prop]) === "object") return;
+const updateState = function (prop) {
+	if (!typeof (state[prop]) === "object") return;
 
 	if (Array.isArray(state[prop])) {
 		state[prop] = [...state[prop]]
 	} else {
-		state[prop] = {...state[prop]}
+		state[prop] = { ...state[prop] }
 	}
 }
 
 // Check if state has changed (if not, a callback can be exited right away)
-const hasChangedState = function(state, oldState, prop) {
-	if (typeof(state[prop]) === "undefined" || state[prop] === oldState[prop]) {
+const hasChangedState = function (state, oldState, prop) {
+	if (typeof (state[prop]) === "undefined" || state[prop] === oldState[prop]) {
 		return false
 	}
 	return true
 }
 
-//---------------------------------------------------------------------
+
+/* ---------------------------------------
+	Read data file upon user request
+------------------------------------------*/
+
 // Required properties in the loaded dataset
 const reqProps = ['inputGrowers', 'inputSlider', 'data1', 'data2'];
 
-/*
-	Read data file upon user request
-*/
-
-document.querySelector("#load-button").addEventListener('click', function() {
-	if(document.querySelector("#file-input").files.length == 0) {
-		alert('Error : No file selected');
-		return;
-	}
+document.querySelector("#load-button").addEventListener('click', () => {
 
 	// new FileReader object
 	const reader = new FileReader();
 
 	// event fired when file reading finished
 	reader.addEventListener('load', e => {
-		// Initialize global state with data from the file
-		if(!initState(JSON.parse(e.target.result), reqProps)) {
+		// Validate and initialize global state with data from the file
+		try {
+			loaded_data = JSON.parse(e.target.result);
+		} catch {
+			alert('Error : Loaded file cannot be parsed');
+		}
+		if (!initState(loaded_data, reqProps)) {
 			alert('Error : Loaded file does not contain required data');
 		};
 	});
 
 	// event fired when file reading failed
 	reader.addEventListener('error', () => {
-	    alert('Error : Failed to read file');
+		alert('Error : Failed to read file');
 	});
 
+	const files = document.querySelector("#file-input").files;
+	if (files.length == 0) {
+		alert('Error : No file selected');
+		return;
+	}
+
 	// file selected by user
-	const file = document.querySelector("#file-input").files[0];
-    console.log("my file: ", file.name, file.type, file.size);
+	console.log("my file:", files[0].name, files[0].type, files[0].size);
+
 
 	// read file as text file
-	reader.readAsText(file);
+	reader.readAsText(files[0]);
 });
 
-/*
-	Set up input elements
-*/
+/* Dashboard-specific functions */
+
+/* Set up input elements */
 
 // Create & subscribe callback populating grower select box
-const grower_select = document.getElementById('grower-sel');
+const growerSel = document.getElementById('grower-sel');
 const populate_select = (state, oldState) => {
 	if (!hasChangedState(state, oldState, 'inputGrowers')) return;
 
-	grower_select.options.length = 0;  // Reset 
+	growerSel.options.length = 0;  // Reset 
 	// Default disabled option
-	grower_select.options[0] = new Option("Grower email...");
-	grower_select.options[0].setAttribute('hidden', true);
+	growerSel.options[0] = new Option("Grower email...");
+	growerSel.options[0].setAttribute('hidden', true);
 
 	// Cycle through growers
-	state.inputGrowers.forEach( g => {
-		grower_select.options[grower_select.options.length] = new Option(g)
+	state.inputGrowers.forEach(g => {
+		growerSel.options[growerSel.options.length] = new Option(g)
 	});
 }
 window.subscribers.push(populate_select);
@@ -127,7 +134,7 @@ chart2 = new Chartist.Bar('#chart-2', null);
 chart3 = new Chartist.Line('#chart-3', null);
 
 // Function factory making chart update callbacks
-const update_charts = function(chart, dataset) {
+const update_charts = function (chart, dataset) {
 	return (state, oldState) => {
 		if (!hasChangedState(state, oldState, dataset)) return;
 		chart.update(state[dataset]);
@@ -141,9 +148,9 @@ window.subscribers.push(update_charts(chart3, 'data2'));
 
 // Set up chartist resize observers
 const chartist_obs = new ResizeObserver(entries => {
-  entries.forEach(entry => {
-    entry.target.__chartist__.update()
-  })
+	entries.forEach(entry => {
+		entry.target.__chartist__.update()
+	})
 });
 const ctCharts = document.querySelectorAll(`.ct-chart`);
 ctCharts.forEach(c => chartist_obs.observe(c));
@@ -170,9 +177,9 @@ mapMapping.set(mapDivMO, mapMO);
 
 // Set up chartist resize observers
 const leaflet_obs = new ResizeObserver(entries => {
-  entries.forEach(entry => {
-    mapMapping.get(entry.target).invalidateSize()
-  })
+	entries.forEach(entry => {
+		mapMapping.get(entry.target).invalidateSize()
+	})
 });
 const leafletMaps = document.querySelectorAll('.leaflet-map');
 leafletMaps.forEach(c => leaflet_obs.observe(c));
@@ -189,16 +196,16 @@ const imageData = ctx.createImageData(canvas.width, canvas.height);
 const create_image = () => {
 	// Iterate through every pixel
 	for (let i = 0; i < imageData.data.length; i += 4) {
-        // Modify pixel data - color
-        //imageData.data[i + 0] = Math.floor(Math.random()*256);  // R value
-        //imageData.data[i + 1] = Math.floor(Math.random()*256);  // G value
-        //imageData.data[i + 2] = Math.floor(Math.random()*256);  // B value
-        // Modify pixel data - B & W
-		rnum = Math.floor(Math.random()*256)
-        imageData.data[i + 0] = 0;  // R value
-        imageData.data[i + 1] = rnum;  // G value
-        imageData.data[i + 2] = 0;  // B value
-        imageData.data[i + 3] = 255;  // A value
+		// Modify pixel data - color
+		//imageData.data[i + 0] = Math.floor(Math.random()*256);  // R value
+		//imageData.data[i + 1] = Math.floor(Math.random()*256);  // G value
+		//imageData.data[i + 2] = Math.floor(Math.random()*256);  // B value
+		// Modify pixel data - B & W
+		rnum = Math.floor(Math.random() * 256)
+		imageData.data[i + 0] = 0;  // R value
+		imageData.data[i + 1] = rnum;  // G value
+		imageData.data[i + 2] = 0;  // B value
+		imageData.data[i + 3] = 255;  // A value
 	}
 	// Draw image data to the canvas
 	ctx.putImageData(imageData, 0, 0);
@@ -206,7 +213,7 @@ const create_image = () => {
 
 
 // Keep generating new white noise images
-const new_frame = function() {
+const new_frame = function () {
 	create_image()
 	setTimeout(() => requestAnimationFrame(new_frame), 17)
 }

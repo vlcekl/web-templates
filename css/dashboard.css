@@ -41,6 +41,7 @@ body {
 .tab-label {
     color: white;
     background-color: var(--col-deselected);
+    padding: 1rem;
 }
 
 .tab-label::before {
@@ -65,17 +66,20 @@ body {
 #btn-info:checked ~ #panel-info,
 #btn-interview:checked ~ #panel-interview {
     display: block;
+    position: relative;
 }
 
 #panel-info .tab-container {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: 50% 50%;
+    position: relative;
 }
 
 #panel-interview .tab-container {
     display: grid;
     grid-template-columns: 50% 50%;
+    position: relative;
 }
 
 header {
