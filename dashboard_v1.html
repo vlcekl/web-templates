@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+        <script defer src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+        <link rel="stylesheet" href="css/dashboard_v1.css">
+        <script defer src="js/dashboard_v1.js"></script>
+    </head>
+
+    <body>
+        <!--Modal window at startup - prompt to load data-->
+        <div class="modal" id="data-loaded">
+            <div class="modal-dialog">
+                <h2>Load data from a local file</h2>
+                <details>
+                    <summary>Info</summary>
+                    Please download file 'input_data.json' from ./data and then open it
+                    in the app.
+                </details>
+                <input type="file" id="file-input" accept=".json" required>
+                <a href="#data-loaded" id="load-file">
+                    <input type="submit" id="load-button" class="load-button" value="Load Data">
+                </a>
+            </div>
+        </div>
+
+        <!--Main content (grid layout)-->
+        <div class="top-container">
+
+        <!--Hidden input elements holding globally accessible states-->
+        <input type="radio" id="btn-summary" class="tab-switch" name="main-tab-choice" value="section-summary" checked>
+        <input type="radio" id="btn-grower" class="tab-switch" name="main-tab-choice" value="section-grower">
+
+        <!--Visible UI elements-->
+        <header>
+            <img src= "images/skull-svgrepo-com.svg">
+            <p>Header</p>
+        </header>
+
+        <!--Controls for section choices-->
+        <nav>
+            <fieldset>
+                <legend>Select View</legend>
+                <label for="btn-summary" id="label-summary">Summary</label>
+                <label for="btn-grower" id="label-grower">Growers</label>
+            </fieldset>
+            <fieldset id="grower-fieldset">
+                <legend>Select Grower</legend>
+                <select id="grower-sel"></select>
+            </fieldset>
+        </nav>
+
+        <!--Main results display area-->
+        <main>
+            <!--Market research summary section-->
+            <section id="section-summary" class="tab-panel tabset">
+                <!--Tab controls for summary panels-->
+                <input type="radio" id="btn-summ-growers" class="tab-switch" name="summary-tab-choice" checked>
+                <label for="btn-summ-growers" id="tab-summ-growers" class="tab-label">Grower Summary</label>
+                <input type="radio" id="btn-seed-yield" class="tab-switch" name="summary-tab-choice">
+                <label for="btn-seed-yield" id="tab-seed-yield" class="tab-label">Seeding Rates</label>
+                <input type="radio" id="btn-price" class="tab-switch" name="summary-tab-choice">
+                <label for="btn-price" id="tab-price" class="tab-label">Pricing</label>
+
+                <!--Summary Growers-->
+                <div class="tab-panel" id="panel-summ-growers">
+                    <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
+                </div>
+
+                <!--Summary Seed & Yield-->
+                <div class="tab-panel" id="panel-seed-yield">
+                    <p>Random noise - canvas test</p>
+                    <canvas id="testcanvas"></canvas>
+                </div>
+
+                <!--Summary Price-->
+                <div class="tab-panel" id="panel-price">
+                    <div id="chart-2" class="ct-chart ct-perfect-fourth"></div>
+                </div>
+
+            </section>
+
+            <!--Market research grower-specific section-->
+            <section id="section-grower" class="tab-panel tabset">
+                <!--Tab controls for grower panels-->
+                <input type="radio" id="btn-info" class="tab-switch" name="grower-tab-choice" checked>
+                <label for="btn-info" id="tab-info" class="tab-label">Info</label>
+                <input type="radio" id="btn-interview" class="tab-switch" name="grower-tab-choice">
+                <label for="btn-interview" id="tab-interview" class="tab-label">Interview</label>
+
+                <!--Grower info-->
+                <div class="tab-panel" id="panel-info">
+                    <div class='tab-container'>
+                        <div id="map-usa" class="leaflet-map"></div>
+                        <div class="photoBox orange"></div>
+                        <div id="chart-3" class="ct-chart ct-perfect-fourth"></div>
+                        <div id="map-mo" class="leaflet-map"></div>
+                    </div>
+                </div>
+
+                <!--Interview overview-->
+                <div class="tab-panel" id="panel-interview">
+                    <div class='tab-container'>
+                        <h2>Grower Summary</h2>
+                        <h2>Survey</h2>
+                    </div>
+                    <template id="template-interview">
+                        <div class='tab-container'>
+                            <div class="interview-data"></div>
+                            <div class="interview-survey"></div>
+                        </div>
+                    </template>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <details>
+                <summary>Info</summary>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae?
+            </details>
+        </footer>
+        </div>
+    </body>
+</html>

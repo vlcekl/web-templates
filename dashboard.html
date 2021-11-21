@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8">
         <title>Dashboard</title>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
         <script defer src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
         <script defer src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
@@ -31,98 +31,96 @@
         <!--Main content (grid layout)-->
         <div class="top-container">
 
-        <!--Hidden input elements holding globally accessible states-->
-        <input type="radio" id="btn-summary" class="tab-switch" name="main-tab-choice" value="section-summary" checked>
-        <input type="radio" id="btn-grower" class="tab-switch" name="main-tab-choice" value="section-grower">
-
-        <!--Visible UI elements-->
-        <header>
-            <img src= "images/skull-svgrepo-com.svg">
-            <p>Header</p>
-        </header>
-
-        <!--Controls for section choices-->
-        <nav>
-            <fieldset>
-                <legend>Select View</legend>
-                <label for="btn-summary" id="label-summary">Summary</label>
-                <label for="btn-grower" id="label-grower">Growers</label>
-            </fieldset>
-            <fieldset id="grower-fieldset">
-                <legend>Select Grower</legend>
-                <select id="grower-sel"></select>
-            </fieldset>
-        </nav>
-
-        <!--Main results display area-->
-        <main>
-            <!--Market research summary section-->
-            <section id="section-summary" class="tab-panel tabset">
-                <!--Tab controls for summary panels-->
-                <input type="radio" id="btn-summ-growers" class="tab-switch" name="summary-tab-choice" checked>
-                <label for="btn-summ-growers" id="tab-summ-growers" class="tab-label">Grower Summary</label>
-                <input type="radio" id="btn-seed-yield" class="tab-switch" name="summary-tab-choice">
-                <label for="btn-seed-yield" id="tab-seed-yield" class="tab-label">Seeding Rates</label>
-                <input type="radio" id="btn-price" class="tab-switch" name="summary-tab-choice">
-                <label for="btn-price" id="tab-price" class="tab-label">Pricing</label>
-
-                <!--Summary Growers-->
-                <div class="tab-panel" id="panel-summ-growers">
-                    <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
-                </div>
-
-                <!--Summary Seed & Yield-->
-                <div class="tab-panel" id="panel-seed-yield">
-                    <p>Random noise - canvas test</p>
-                    <canvas id="testcanvas"></canvas>
-                </div>
-
-                <!--Summary Price-->
-                <div class="tab-panel" id="panel-price">
-                    <div id="chart-2" class="ct-chart ct-perfect-fourth"></div>
-                </div>
-
-            </section>
-
-            <!--Market research grower-specific section-->
-            <section id="section-grower" class="tab-panel tabset">
-                <!--Tab controls for grower panels-->
-                <input type="radio" id="btn-info" class="tab-switch" name="grower-tab-choice" checked>
-                <label for="btn-info" id="tab-info" class="tab-label">Info</label>
-                <input type="radio" id="btn-interview" class="tab-switch" name="grower-tab-choice">
-                <label for="btn-interview" id="tab-interview" class="tab-label">Interview</label>
-
-                <!--Grower info-->
-                <div class="tab-panel" id="panel-info">
-                    <div class='tab-container'>
-                        <div id="map-usa" class="leaflet-map"></div>
-                        <div class="photoBox orange"></div>
-                        <div id="chart-3" class="ct-chart ct-perfect-fourth"></div>
-                        <div id="map-mo" class="leaflet-map"></div>
-                    </div>
-                </div>
-
-                <!--Interview overview-->
-                <div class="tab-panel" id="panel-interview">
-                    <div class='tab-container'>
-                        <h2>Grower Summary</h2>
-                        <h2>Survey</h2>
-                    </div>
-                    <template id="template-interview">
-                        <div class='tab-container'>
-                            <div class="interview-data"></div>
-                            <div class="interview-survey"></div>
+            <!--Hidden input elements holding globally accessible states-->
+            <input type="radio" id="main-tab-1" class="tab-switch" name="tab-choice-main" value="main-tab-1" checked>
+            <input type="radio" id="main-tab-2" class="tab-switch" name="tab-choice-main" value="main-tab-2">
+     
+            <!--Just a header-->
+            <header>
+                <img src= "images/skull-svgrepo-com.svg">
+                <p>Demo Application</p>
+            </header>
+     
+            <!--Controls for main-tabs and section choices-->
+            <nav>
+                <!--Main tab selection-->
+                <fieldset>
+                    <legend>Select View</legend>
+                    <label for="main-tab-1" id="label-main-tab-1" class="tab-button">Main Tab 1</label>
+                    <label for="main-tab-2" id="label-main-tab-2" class="tab-button">Main Tab 2</label>
+                </fieldset>
+     
+                <!--Main Tab 1 Controls-->
+                <fieldset id="controls-main-tab-1" class="tab-controls">
+                    <legend>Tab 1 Controls</legend>
+                    <select id="control-1-select"></select>
+                </fieldset>
+     
+                <!--Main Tab 2 Controls-->
+                <fieldset id="controls-main-tab-2" class="tab-controls">
+                    <legend>Tab 2 Controls</legend>
+                    <select id="control-2-select"></select>
+                </fieldset>
+            </nav>
+     
+            <!--Main results display area-->
+            <main>
+                <!--Section 1 panels-->
+                <section id="panel-main-tab-1" class="tab-panel">
+                    <!--Tab controls for Section 1-->
+                    <input type="radio" id="section-tab-1a" class="tab-switch" name="tab-choice-1" checked>
+                    <label for="section-tab-1a" id="label-section-tab-1a" class="tab-label">Histogram Tab</label>
+                    <input type="radio" id="section-tab-1b" class="tab-switch" name="tab-choice-1">
+                    <label for="section-tab-1b" id="label-section-tab-1b" class="tab-label">Table Tab</label>
+     
+                    <!--Histogram-->
+                    <div class="tab-panel" id="panel-1a">
+                        <div class="tab-container layout-chart">
+                            <h2>Example Histogram</h2>
+                            <div id="chart-1" class="ct-chart ct-perfect-fourth"></div>
                         </div>
-                    </template>
-                </div>
-            </section>
-        </main>
-        <footer>
-            <details>
-                <summary>Info</summary>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim blanditiis suscipit soluta quidem, facere molestiae?
-            </details>
-        </footer>
+                    </div>
+     
+                    <!--Table-->
+                    <div class="tab-panel" id="panel-1b">
+                        <div class="tab-container layout-table">
+                            <h2>Example Table</h2>
+                            <table id="test-table"></table>
+                        </div>
+                    </div>
+                </section>
+     
+                <!--Section 2 panels-->
+                <section id="panel-main-tab-2" class="tab-panel">
+                    <!--Tab controls for Section 2-->
+                    <input type="radio" id="section-tab-2a" class="tab-switch" name="tab-choice-2" checked>
+                    <label for="section-tab-2a" id="label-section-tab-2a" class="tab-label">Info</label>
+                    <input type="radio" id="section-tab-2b" class="tab-switch" name="tab-choice-2">
+                    <label for="section-tab-2b" id="label-section-tab-2b" class="tab-label">Interview</label>
+     
+                    <!--Geospatial-->
+                    <div class="tab-panel" id="panel-2a">
+                        <div class="tab-container layout-map">
+                            <h2>Example map with labels</h2>
+                            <div id="map-mo" class="leaflet-map"></div>
+                        </div>
+                    </div>
+     
+                    <!--Canvas test-->
+                    <div class="tab-panel" id="panel-2b">
+                        <div class="tab-container layout-canvas">
+                            <h2>Random noise - canvas test</h2>
+                            <canvas id="testcanvas"></canvas>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <footer>
+                <details>
+                    <summary>Info</summary>
+                    Additional information ...
+                </details>
+            </footer>
         </div>
     </body>
 </html>

@@ -1,3 +1,4 @@
+/* == GLOBAL STYLE SETTINGS == */
 :root {
     --bay-dpurple: #624963;
     --bay-dblue: #13364D;
@@ -9,197 +10,14 @@
     --col-checked: #555;
     --col-deselected: #AAA;
     --font-family: sans-serif;
-    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    font-family: var(--font-family-sans-serif);
+    font-family: var(--font-family);
 }
 
 body {
     margin: 0;
 }
 
-.top-container {
-    height: 100vh;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto 1fr auto;
-    grid-template-areas:
-     "header header"
-     "nav main"
-     "nav main"
-     "footer footer";
-}
-
-.tabset {
-}
-
-/* All tab selection radio buttons are hidden */
-.tab-switch {
-    display: none;
-}
-
-/* Colorscheme for all deselected tab labels */
-.tab-label {
-    color: white;
-    background-color: var(--col-deselected);
-    padding: 1rem;
-}
-
-.tab-label::before {
-    content: "// ";
-    color: var(--bay-dblue);
-}
-
-/* All tab panels are hidden by default */
-.tab-panel {
-    display: none;
-}
-
-/* Selected tab label. Assumes labels directly follow radio buttons */
-.tab-switch:checked + .tab-label {
-    background-color: var(--col-checked);
-}
-
-/* Selected tab panel. Assumes labels follow corresponding radio buttons */
-#btn-summ-growers:checked ~ #panel-summ-growers,
-#btn-seed-yield:checked ~ #panel-seed-yield,
-#btn-price:checked ~ #panel-price,
-#btn-info:checked ~ #panel-info,
-#btn-interview:checked ~ #panel-interview {
-    display: block;
-    position: relative;
-}
-
-#panel-info .tab-container {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-    position: relative;
-}
-
-#panel-interview .tab-container {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    position: relative;
-}
-
-header {
-    display: flex;
-    align-content: center;
-    grid-area: header;
-    color: white;
-    background-color: var(--bay-dblue);
-}
-
-header p {
-    padding-left: 0.2em;
-    margin-top: auto;
-    font-size: 2.5em;
-    margin-bottom: auto;
-}
-
-header img {
-    height: 60px;
-    width: auto;
-    margin: 0.2em;
-}
-
-nav {
-    grid-area: nav;
-    background-color: var(--sidebar-col);
-}
-
-nav h2 {
-    text-align: center;
-}
-
-nav fieldset {
-    display: flex;
-    flex-direction: column;
-    font-size: 1.5rem;
-    margin-top: 0.5em;
-}
-
-nav fieldset label {
-    color: white;
-    background-color: var(--col-deselected);
-    padding: 0.5rem 1rem;
-    text-align: center;
-    font-size: 1rem;
-/*    cursor: pointer; */
-}
-
-nav fieldset label::before {
-    content: '// ';
-    color: var(--bay-dblue);
-}
-
-nav fieldset label:hover {
-    background-color: var(--hover-col);
-}
-
-nav fieldset label:active {
-  box-shadow: 0 2px #6661;
-  transform: translateY(2px);
-}
-
-#btn-summary:checked ~ nav #label-summary,
-#btn-grower:checked ~ nav #label-grower {
-    background-color: var(--col-checked);
-}
-
-#btn-summary:checked ~ nav #label-summary::before,
-#btn-grower:checked ~ nav #label-grower::before {
-    color: var(--bay-lblue);
-}
-
-nav #grower-fieldset {
-    display: none;
-}
-
-#btn-grower:checked ~ nav #grower-fieldset {
-    display: flex;
-}
-
-#grower-fieldset select {
-    width: 100%;
-}
-
-main {
-    grid-area: main;
-    overflow: auto;
-}
-
-footer {
-    grid-area: footer;
-    color: white;
-    background-color: var(--bay-lblue);
-    border: 1px solid black;
-}
-
-/* Show main tab panels */
-#btn-summary:checked ~ main #section-summary,
-#btn-grower:checked ~ main #section-grower {
-    display: block;
-}
-
-.nestedGrid {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
-}
-
-.orange {
-    height: 500px;
-    background-color: var(--bay-lgreen);
-    background-size: cover;
-}
-
-canvas {
-    width: 200px;
-    height: 200px;
-}
-
-/* MODAL */
+/* == STARTUP MODAL WINDOW == */
 
 /* darken page beneath */
 .modal::before {
@@ -249,10 +67,6 @@ canvas {
     display: none;
 }
 
-/*#file-input:valid {
-    display: none;
-}*/
-
 .load-button {
     background-color: var(--bay-lgreen);
 }
@@ -264,4 +78,168 @@ canvas {
 /* Disappear modal after navigating to its wrapper element */
 .modal:target {
     display: none;
+}
+
+
+/* == TOP-LEVEL LAYOUT == */
+
+.top-container {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+     "header header"
+     "nav main"
+     "nav main"
+     "footer footer";
+}
+
+header {
+    display: flex;
+    align-content: center;
+    grid-area: header;
+    color: white;
+    background-color: var(--bay-dblue);
+}
+
+nav {
+    grid-area: nav;
+    background-color: var(--sidebar-col);
+}
+
+main {
+    grid-area: main;
+    overflow: auto;
+}
+
+footer {
+    grid-area: footer;
+    color: white;
+    background-color: var(--bay-lblue);
+    border: 1px solid black;
+}
+
+/* == TABSET GENERAL FUNCTION AND STYLING == */
+
+/* All tab selection radio buttons are hidden */
+.tab-switch {
+    display: none;
+}
+
+/* Main tabs - button styling */
+.tab-button {
+    color: white;
+    background-color: var(--col-deselected);
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-size: 1rem;
+/*    cursor: pointer; */
+}
+
+.tab-button::before {
+    content: '// ';
+    color: var(--bay-dblue);
+}
+
+.tab-button:hover {
+    background-color: var(--hover-col);
+}
+
+.tab-button:active {
+  box-shadow: 0 2px #6661;
+  transform: translateY(2px);
+}
+
+/* Second-level tabs - tab-label styling */
+.tab-label {
+    color: white;
+    background-color: var(--col-deselected);
+    padding: 1rem;
+}
+
+.tab-label::before {
+    content: "// ";
+    color: var(--bay-dblue);
+}
+
+/* All tab panels are hidden by default */
+.tab-panel {
+    display: none;
+}
+
+
+/* == TABSET SPECIFIC FUNCTION: checked radio button and label/tab bonds == */
+
+/* Show main tab labels and panels panels */
+#main-tab-1:checked ~ nav #label-main-tab-1,
+#main-tab-2:checked ~ nav #label-main-tab-2 {
+    background-color: var(--col-checked);
+}
+
+#main-tab-1:checked ~ nav #label-main-tab-1::before,
+#main-tab-2:checked ~ nav #label-main-tab-2::before {
+    color: var(--bay-lblue);
+}
+
+#main-tab-1:checked ~ main #panel-main-tab-1,
+#main-tab-2:checked ~ main #panel-main-tab-2 {
+    display: block;
+}
+
+/* Second-level tabs */
+.tab-switch:checked + .tab-label {
+    background-color: var(--col-checked);
+}
+
+#section-tab-1a:checked ~ #panel-1a,
+#section-tab-1b:checked ~ #panel-1b,
+#section-tab-2a:checked ~ #panel-2a,
+#section-tab-2b:checked ~ #panel-2b {
+    display: block;
+    position: relative;
+}
+
+
+/* == SECOND-LEVEL LAYOUTS == */
+
+header p {
+    padding-left: 0.2em;
+    margin-top: auto;
+    font-size: 2.5em;
+    margin-bottom: auto;
+}
+
+header img {
+    height: 60px;
+    width: auto;
+    margin: 0.2em;
+}
+
+.tab-controls {
+    display: none;
+}
+
+#main-tab-1:checked ~ nav #controls-main-tab-1,
+#main-tab-2:checked ~ nav #controls-main-tab-2 {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    margin-top: 0.5em;
+}
+
+.tab-controls > select {
+    width: 100%;
+}
+
+.tab-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+
+canvas {
+    width: 200px;
+    height: 200px;
 }

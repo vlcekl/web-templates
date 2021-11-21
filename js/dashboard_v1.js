@@ -124,22 +124,27 @@ const populate_select = (state, oldState) => {
 window.subscribers.push(populate_select);
 
 
-/* -------------------
-	Chartist.js plots
-   ------------------- */
+/*
+	Make plots and maps
+*/
+
+/* Chartist.js charts */
+chart1 = new Chartist.Line('#chart-1', null);
+chart2 = new Chartist.Bar('#chart-2', null);
+chart3 = new Chartist.Line('#chart-3', null);
 
 // Function factory making chart update callbacks
-function update_charts(chart, dataset) {
+const update_charts = function (chart, dataset) {
 	return (state, oldState) => {
-		if (!hasChangedState(state, oldState, dataset))
-			return;
+		if (!hasChangedState(state, oldState, dataset)) return;
 		chart.update(state[dataset]);
-	};
+	}
 }
 
 // Define and subscribe callbacks updating chart data
-chart1 = new Chartist.Bar('#chart-1', null);
 window.subscribers.push(update_charts(chart1, 'data1'));
+window.subscribers.push(update_charts(chart2, 'data2'));
+window.subscribers.push(update_charts(chart3, 'data2'));
 
 // Set up chartist resize observers
 const chartist_obs = new ResizeObserver(entries => {
@@ -147,61 +152,20 @@ const chartist_obs = new ResizeObserver(entries => {
 		entry.target.__chartist__.update()
 	})
 });
-const ctCharts = document.querySelectorAll('.ct-chart');
+const ctCharts = document.querySelectorAll(`.ct-chart`);
 ctCharts.forEach(c => chartist_obs.observe(c));
 
-
-/* --------------------------
-	Create/update HTML table
-   -------------------------- */
-//{"headers": {"Person": ["id", "email"]}, "rows": {"Person": [[1, "a@b.com"], [2, "c@d.com"], [3, "a@b.com"]]}}
-function getTableHTML(data) {
-	// Header
-	headHTML = '<thead><tr>'
-	data["headers"].forEach(d => {
-		headHTML += `<td>${d}</td>`;
-	})
-	headHTML += '</tr></thead>'
-
-	// Body
-	bodyHTML = '<tbody>'
-	data["rows"].forEach(r => {
-		bodyHTML += '<tr>'
-		r.forEach(d => {
-			bodyHTML += `<td>${d}</td>`;
-		})
-		bodyHTML += '</tr>'
-	})
-	bodyHTML += '</tbody>'
-
-	return headHTML + bodyHTML;
-}
-
-// Function factory making table update callbacks
-function update_table(oldTable, dataset) {
-	return (state, oldState) => {
-		if (!hasChangedState(state, oldState, dataset))
-			return;
-
-		// Create new table and replace the old one
-		const newTable = document.createElement('table');
-		newTable.innerHTML = getTableHTML(dataset);
-		newTable.id = oldTable.id;
-		oldTable.parentNode.replaceChild(newTable, oldTable);
-	};
-}
-
-// Define and subscribe callbacks updating chart data
-const table1 = document.getElementById('test-table');
-window.subscribers.push(update_table(table1, 'data1'));
-
-
-/* -----------------
-	Leaflet.js maps
-   ----------------- */
-
+/* Leaflet.js maps */
 // Set up object for mapping from mapDiv to the inner map object
 const mapMapping = new Map();
+
+// Map USA
+const mapDivUSA = document.getElementById('map-usa');
+const mapUSA = L.map(mapDivUSA).setView([37.8, -96], 4);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mapUSA);
+mapMapping.set(mapDivUSA, mapUSA);
 
 // Map Missouri
 const mapDivMO = document.getElementById('map-mo');
@@ -211,7 +175,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(mapMO);
 mapMapping.set(mapDivMO, mapMO);
 
-// Set up leaflet resize observers
+// Set up chartist resize observers
 const leaflet_obs = new ResizeObserver(entries => {
 	entries.forEach(entry => {
 		mapMapping.get(entry.target).invalidateSize()
@@ -221,10 +185,9 @@ const leafletMaps = document.querySelectorAll('.leaflet-map');
 leafletMaps.forEach(c => leaflet_obs.observe(c));
 
 
-/* ------------------------------------------------
-	CANVAS setup for 2D drawing - color noise test
-   ------------------------------------------------*/
-
+/*
+	CANVAS setup for 2D drawing - white noise test
+*/
 const canvas = document.getElementById('testcanvas');
 const ctx = canvas.getContext('2d');
 
@@ -233,7 +196,11 @@ const imageData = ctx.createImageData(canvas.width, canvas.height);
 const create_image = () => {
 	// Iterate through every pixel
 	for (let i = 0; i < imageData.data.length; i += 4) {
-		// Modify pixel data - random with a given hue
+		// Modify pixel data - color
+		//imageData.data[i + 0] = Math.floor(Math.random()*256);  // R value
+		//imageData.data[i + 1] = Math.floor(Math.random()*256);  // G value
+		//imageData.data[i + 2] = Math.floor(Math.random()*256);  // B value
+		// Modify pixel data - B & W
 		rnum = Math.floor(Math.random() * 256)
 		imageData.data[i + 0] = 0;  // R value
 		imageData.data[i + 1] = rnum;  // G value
