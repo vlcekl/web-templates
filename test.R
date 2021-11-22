@@ -5,7 +5,7 @@ library(whisker)
 
 states <- c('il', 'in', 'ia', 'mn', 'mo', 'wi', 'mi', 'oh', 'nd', 'sd', 'ne',
             'oh', 'ky')
-states <- toupper(states)
+states <- sort(toupper(states))
 
 df <- data.frame(state = sample(states, 1000, replace = TRUE))
 
@@ -15,11 +15,9 @@ names(yield_state) <- states
 df$yield <- yield_state[df$state] + rnorm(nrow(df), 200, 40)
 max_yield <- floor(1.1*max(df$yield))
 
-datalist <- seq(0, max_yield, 40)
+datalist <- seq(0, max_yield, 50)
 
 all_inputs <- list(
-  data = df,
-  data_proc = NULL,
   controls = list(
     inputSelect1 = states,
     inputSelect2 = states,
@@ -28,10 +26,12 @@ all_inputs <- list(
                        datalist = datalist),
     inputNumber = 20
   ),
-  inputSelect1 = 'IL',
-  inputSelect2 = 'IL',
+  inputSelect1 = states[1],
+  inputSelect2 = states[1],
   inputSlider = mean(df$yield),
-  inputNumber = 20
+  inputNumber = 20,
+  data = df,
+  data_proc = NULL
 )
 
 js <- toJSON(all_inputs, dataframe = 'columns', auto_unbox = TRUE)

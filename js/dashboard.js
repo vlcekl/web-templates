@@ -112,8 +112,8 @@ function populate_select(inpElement, thisSelect) {
 
 		inpElement.options.length = 0;  // Reset 
 		// Default disabled option
-		inpElement.options[0] = new Option("Select option...");
-		inpElement.options[0].setAttribute('hidden', true);
+		//inpElement.options[0] = new Option("Select option...");
+		//inpElement.options[0].setAttribute('hidden', true);
  
 		// Cycle through options
 		state.controls[thisSelect].forEach(g => {
@@ -127,20 +127,58 @@ window.subscribers.push(populate_select(select1, 'inputSelect1'));
 const select2 = document.getElementById('control-2-select');
 window.subscribers.push(populate_select(select2, 'inputSelect2'));
 
+const select1b = document.getElementById('control-1-select');
+select1b.addEventListener('change', e => {
+	state['inputSelect1'] = e.target.value;
+})
+
+const select2b = document.getElementById('control-2-select');
+select2b.addEventListener('change', e => {
+	state['inputSelect2'] = e.target.value;
+})
+
+const number1 = document.getElementById('control-1-number');
+number1.addEventListener('input', e => {
+	state['inputNumber'] = e.target.value;
+})
+
 // Create & subscribe callback populating slider
-function populate_slider(inpElement, datalist, thisSelect) {
+function makeDetailsElement(state, oldDatalist, thisSelect) {
+
+	const datalist = document.createElement('datalist');
+	datalist.id = oldDatalist.id;
+
+	datalist.options.length = 0;  // Reset 
+
+	state.controls[thisSelect]['datalist'].forEach(g => {
+		//console.log('datalist', g, datalist.options.length);
+		//datalist.options[datalist.options.length] = new Option(g);
+		opt = new Option(g);
+		opt.setAttribute('value', g);
+		opt.setAttribute('label', g);
+		datalist.appendChild(opt);
+//			datalist.options[datalist.options.length-1].setAttribute("label", g);
+	})
+	return datalist;
+}
+
+
+function populate_slider(inpElement, oldDatalist, thisSelect) {
 	return (state, oldState) => {
 		if (!hasChangedState(state, oldState, 'controls')) return;
 
-		datalist.options.length = 0;  // Reset 
+		// Create datalist for slider labels
+		const newDatalist = makeDetailsElement(state, oldDatalist, thisSelect);
+		newDatalist.id = oldDatalist.id;
+		oldDatalist.parentNode.replaceChild(newDatalist, oldDatalist);
 
-		state.controls[thisSelect]['datalist'].forEach(g => {
-			console.log('datalist', g, datalist.options.length);
-			datalist.options[datalist.options.length] = new Option(g);
-//			datalist.options[datalist.options.length-1].setAttribute("label", g);
-		})
-		console.log(datalist)
-		;
+		// Set slider attributes
+		//const inpElement = document.createElement('input');
+		inpElement.setAttribute('min', state.controls[thisSelect].min);
+		inpElement.setAttribute('max', state.controls[thisSelect].max);
+		inpElement.setAttribute('value', state.controls[thisSelect].value);
+		inpElement.setAttribute('list', newDatalist.id);
+		//oldInpElement.parentNode.replaceChild(inpElement, oldInpElement);
 	}
 }
 
@@ -148,26 +186,39 @@ const slider1 = document.getElementById('control-1-slider');
 const datalist1 = document.getElementById('control-1-slider-list');
 window.subscribers.push(populate_slider(slider1, datalist1, 'inputSlider'));
 
+const slider1a = document.getElementById('control-1-slider');
+
+slider1a.addEventListener('change', e => {
+	state['inputSlider'] = e.target.value;
+});
 
 /* --------------
     Process data
    --------------*/
 
 // Filter dataset using callbacks stored in filters array
-function filter_data(data_in, filters) {
+function filter_data(data_in, filtercol, filterval) {
 
 	// get boolean array indicating rows that pass filter
+	const cols = Object.keys(data_in);
 	const nrow = data_in[cols[0]].length;
 	idx_arr = [];
-	for (let i = 0; i < nrow; i++) {
-		idx_arr.append(filters.every(filter_fun => filter_fun(data_in, i)));
+	if (typeof(data_in[filtercol][0]) === "number") {
+		for (let i = 0; i < nrow; i++) {
+			idx_arr.push(data_in[filtercol][i] < filterval); // filters.every(filter_fun => filter_fun(data_in, i)));
+		}
+	} else {
+		for (let i = 0; i < nrow; i++) {
+			//idx_arr.append(filters.every(filter_fun => filter_fun(data_in, i)));
+			idx_arr.push(data_in[filtercol][i] === filterval); // filters.every(filter_fun => filter_fun(data_in, i)));
+		}
 	}
 
 	// filter elements in all columns based on the boolean array
 	data_out = {};
-	for (let c in Object.keys(data_in)) {
+	cols.forEach( c => {
 		data_out[c] = data_in[c].filter((e, i) => idx_arr[i]);
-	}
+	})
 
 	return data_out;
 }
@@ -229,6 +280,8 @@ function aggregate(data_in, summs = null, groupBy = null) {
 // Calculate a histogram for a given numeric array
 function hist(vec, bins = 20) {
 
+	bins = 1*bins;
+
     let min = Math.min(...vec);
     let max = Math.max(...vec);
 	let width = (max - min)/bins;
@@ -238,13 +291,59 @@ function hist(vec, bins = 20) {
 	width += width/bins;
 
     const histo = new Array(bins).fill(0);
+    const binarr = new Array(bins).fill().map((element, index) => min + index*width)
 
     for (const item of vec) {
         histo[Math.floor((item - min) / width)]++;
     }
 
-    return histo;
+    return {hst: histo, bin: binarr};
 }
+
+function calculate_histogram() {
+	return (state, oldState) => {
+		if (!hasChangedState(state, oldState, 'data_proc') &&
+			!hasChangedState(state, oldState, 'inputSlider') &&
+			!hasChangedState(state, oldState, 'inputSelect1') &&
+			!hasChangedState(state, oldState, 'inputNumber') || 
+			typeof(state['inputSelect1']) === "undefined")
+			return;
+
+		let data_filt = filter_data(state['data'], filtercol = "state", filterval = state['inputSelect1']);
+		console.log('data_filt', data_filt);
+		data_filt = filter_data(data_filt, filtercol = "yield", filterval = state['inputSlider']);
+		console.log(state['inputNumber'])
+
+		hst_obj = hist(data_filt['yield'], state['inputNumber']);
+		hst_vec = hst_obj.hst;
+		hst_bin = hst_obj.bin;
+
+		a = state['data_proc']['series'][0];
+		b = hst_vec;
+		console.log('a', a);
+		console.log('b', b);
+
+		if (typeof(b) === "undefined") return;
+		if (typeof(a) === "undefined") {
+			console.log('hst_vec', hst_vec);
+			state['data_proc']['series'] = [hst_vec];
+			state['data_proc']['labels'] = hst_bin.map(v => Math.round(v));
+			console.log('xx', state['data_proc']);
+			updateState('data_proc');
+			return;
+		}
+
+		if (a.every(item => b.includes(item)) && b.every(item => a.includes(item))) return;
+
+		console.log('hst_vec', hst_vec);
+		state['data_proc']['series'] = [hst_vec];
+		state['data_proc']['labels'] = hst_bin.map(v => Math.round(v));
+		console.log('xx', state['data_proc']);
+		updateState('data_proc');
+	}
+}
+window.subscribers.push(calculate_histogram());
+
 
 /*
 function update_data_callback(dataset, inputs) {
@@ -336,7 +435,7 @@ function update_table(oldTable, dataset) {
 
 // Define and subscribe callbacks updating chart data
 const table1 = document.getElementById('test-table');
-window.subscribers.push(update_table(table1, 'data_proc'));
+//window.subscribers.push(update_table(table1, 'data_proc'));
 
 
 /* -----------------
