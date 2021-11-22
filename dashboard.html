@@ -53,12 +53,19 @@
                 <!--Main Tab 1 Controls-->
                 <fieldset id="controls-main-tab-1" class="tab-controls">
                     <legend>Tab 1 Controls</legend>
+                    <label for="control-1-select">State</label>
                     <select id="control-1-select"></select>
+                    <label for="control-1-slider">Max yield</label>
+                    <input type=range id="control-1-slider" min="0" max="300" value="200" list="control-1-slider-list">
+                    <datalist id="control-1-slider-list"></datalist>
+                    <label for="control-1-number">Histogram bins</label>
+                    <input type="number" id="control-1-number" value="20">
                 </fieldset>
      
                 <!--Main Tab 2 Controls-->
                 <fieldset id="controls-main-tab-2" class="tab-controls">
                     <legend>Tab 2 Controls</legend>
+                    <label for="control-2-select">State</label>
                     <select id="control-2-select"></select>
                 </fieldset>
             </nav>
@@ -69,9 +76,9 @@
                 <section id="panel-main-tab-1" class="tab-panel">
                     <!--Tab controls for Section 1-->
                     <input type="radio" id="section-tab-1a" class="tab-switch" name="tab-choice-1" checked>
-                    <label for="section-tab-1a" id="label-section-tab-1a" class="tab-label">Histogram Tab</label>
+                    <label for="section-tab-1a" id="label-section-tab-1a" class="tab-label">Histogram</label>
                     <input type="radio" id="section-tab-1b" class="tab-switch" name="tab-choice-1">
-                    <label for="section-tab-1b" id="label-section-tab-1b" class="tab-label">Table Tab</label>
+                    <label for="section-tab-1b" id="label-section-tab-1b" class="tab-label">Table</label>
      
                     <!--Histogram-->
                     <div class="tab-panel" id="panel-1a">
@@ -94,14 +101,14 @@
                 <section id="panel-main-tab-2" class="tab-panel">
                     <!--Tab controls for Section 2-->
                     <input type="radio" id="section-tab-2a" class="tab-switch" name="tab-choice-2" checked>
-                    <label for="section-tab-2a" id="label-section-tab-2a" class="tab-label">Info</label>
+                    <label for="section-tab-2a" id="label-section-tab-2a" class="tab-label">Maps</label>
                     <input type="radio" id="section-tab-2b" class="tab-switch" name="tab-choice-2">
-                    <label for="section-tab-2b" id="label-section-tab-2b" class="tab-label">Interview</label>
+                    <label for="section-tab-2b" id="label-section-tab-2b" class="tab-label">Canvas</label>
      
                     <!--Geospatial-->
                     <div class="tab-panel" id="panel-2a">
                         <div class="tab-container layout-map">
-                            <h2>Example map with labels</h2>
+                            <h2>Example map</h2>
                             <div id="map-mo" class="leaflet-map"></div>
                         </div>
                     </div>

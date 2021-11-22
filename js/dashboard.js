@@ -62,7 +62,7 @@ const hasChangedState = function (state, oldState, prop) {
 ------------------------------------------*/
 
 // Required properties in the loaded dataset
-const reqProps = ['inputSelect', 'inputSlider', 'inputNumber', 'data', 'data_proc'];
+const reqProps = ['inputSelect1', 'inputSelect2', 'inputSlider', 'inputNumber', 'controls', 'data', 'data_proc'];
 
 document.querySelector("#load-button").addEventListener('click', () => {
 
@@ -106,21 +106,47 @@ document.querySelector("#load-button").addEventListener('click', () => {
    ----------------------- */
 
 // Create & subscribe callback populating grower select box
-const growerSel = document.getElementById('grower-sel');
-const populate_select = (state, oldState) => {
-	if (!hasChangedState(state, oldState, 'inputGrowers')) return;
+function populate_select(inpElement, thisSelect) {
+	return (state, oldState) => {
+		if (!hasChangedState(state, oldState, 'controls')) return;
 
-	growerSel.options.length = 0;  // Reset 
-	// Default disabled option
-	growerSel.options[0] = new Option("Grower email...");
-	growerSel.options[0].setAttribute('hidden', true);
-
-	// Cycle through growers
-	state.inputGrowers.forEach(g => {
-		growerSel.options[growerSel.options.length] = new Option(g)
-	});
+		inpElement.options.length = 0;  // Reset 
+		// Default disabled option
+		inpElement.options[0] = new Option("Select option...");
+		inpElement.options[0].setAttribute('hidden', true);
+ 
+		// Cycle through options
+		state.controls[thisSelect].forEach(g => {
+			inpElement.options[inpElement.options.length] = new Option(g)
+		});
+	}
 }
-window.subscribers.push(populate_select);
+
+const select1 = document.getElementById('control-1-select');
+window.subscribers.push(populate_select(select1, 'inputSelect1'));
+const select2 = document.getElementById('control-2-select');
+window.subscribers.push(populate_select(select2, 'inputSelect2'));
+
+// Create & subscribe callback populating slider
+function populate_slider(inpElement, datalist, thisSelect) {
+	return (state, oldState) => {
+		if (!hasChangedState(state, oldState, 'controls')) return;
+
+		datalist.options.length = 0;  // Reset 
+
+		state.controls[thisSelect]['datalist'].forEach(g => {
+			console.log('datalist', g, datalist.options.length);
+			datalist.options[datalist.options.length] = new Option(g);
+//			datalist.options[datalist.options.length-1].setAttribute("label", g);
+		})
+		console.log(datalist)
+		;
+	}
+}
+
+const slider1 = document.getElementById('control-1-slider');
+const datalist1 = document.getElementById('control-1-slider-list');
+window.subscribers.push(populate_slider(slider1, datalist1, 'inputSlider'));
 
 
 /* --------------
@@ -205,21 +231,22 @@ function hist(vec, bins = 20) {
 
     let min = Math.min(...vec);
     let max = Math.max(...vec);
-	let size = (max - min)/bins;
+	let width = (max - min)/bins;
 
 	// Adjust - set bins a bit larger and minimum smaller
-	min -= 0.1*size;
-	size += 0.2*size/bins;
+	min -= 0.5*width;
+	width += width/bins;
 
     const histo = new Array(bins).fill(0);
 
     for (const item of vec) {
-        histo[Math.floor((item - min) / size)]++;
+        histo[Math.floor((item - min) / width)]++;
     }
 
     return histo;
 }
 
+/*
 function update_data_callback(dataset, inputs) {
 	return (state, oldState) => {
 		if (!hasChangedState(state, oldState, dataset)
@@ -231,6 +258,7 @@ function update_data_callback(dataset, inputs) {
 }
 
 window.subscribers.push(update_data_callback('data', ));
+*/
 
 /* -------------------
 	Chartist.js plots
@@ -288,7 +316,7 @@ function makeTableElement(data) {
 
 	// Create HTML table element
 	const newTable = document.createElement('table');
-	newTable.innerHTML(headHTML + bodyHTML)
+	newTable.innerHTML = headHTML + bodyHTML;
 
 	return newTable;
 }

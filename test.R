@@ -13,16 +13,28 @@ yield_state <- rnorm(length(states), 0, 20)
 names(yield_state) <- states
 
 df$yield <- yield_state[df$state] + rnorm(nrow(df), 200, 40)
+max_yield <- floor(1.1*max(df$yield))
+
+datalist <- seq(0, max_yield, 40)
 
 all_inputs <- list(
   data = df,
   data_proc = NULL,
-  inputSelect = states,
-  inputSlider = list(min = 0.0, max = 1.1*max(df$yield), value = mean(df$yield)),
+  controls = list(
+    inputSelect1 = states,
+    inputSelect2 = states,
+    inputSlider = list(min = 0, max = max_yield, step = 5,
+                       value = mean(df$yield),
+                       datalist = datalist),
+    inputNumber = 20
+  ),
+  inputSelect1 = 'IL',
+  inputSelect2 = 'IL',
+  inputSlider = mean(df$yield),
   inputNumber = 20
 )
 
-js <- toJSON(all_inputs, dataframe = 'columns')
+js <- toJSON(all_inputs, dataframe = 'columns', auto_unbox = TRUE)
 
 write(js, "~/work/web/web-templates/data/dummy.json")
 
