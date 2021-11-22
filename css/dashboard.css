@@ -239,7 +239,17 @@ header img {
     align-items: center;
 }
 
-canvas {
+/* Sizing of specific UI elements */
+
+#chart-1 {
+    width: 50vw;
+}
+
+#map-mo {
+    width: 50vw;
+}
+
+#testcanvas {
     width: 200px;
     height: 200px;
 }

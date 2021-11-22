@@ -1,5 +1,33 @@
+library(jsonlite)
 library(whisker)
 
+# Generate data
+
+states <- c('il', 'in', 'ia', 'mn', 'mo', 'wi', 'mi', 'oh', 'nd', 'sd', 'ne',
+            'oh', 'ky')
+states <- toupper(states)
+
+df <- data.frame(state = sample(states, 1000, replace = TRUE))
+
+yield_state <- rnorm(length(states), 0, 20)
+names(yield_state) <- states
+
+df$yield <- yield_state[df$state] + rnorm(nrow(df), 200, 40)
+
+all_inputs <- list(
+  data = df,
+  data_proc = NULL,
+  inputSelect = states,
+  inputSlider = list(min = 0.0, max = 1.1*max(df$yield), value = mean(df$yield)),
+  inputNumber = 20
+)
+
+js <- toJSON(all_inputs, dataframe = 'columns')
+
+write(js, "~/work/web/web-templates/data/dummy.json")
+
+
+# Try mustache templates
 template <-
 'Hello {{name}}
 You have just won ${{value}}!
