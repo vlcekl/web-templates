@@ -306,39 +306,22 @@ function calculate_histogram() {
 			!hasChangedState(state, oldState, 'inputSlider') &&
 			!hasChangedState(state, oldState, 'inputSelect1') &&
 			!hasChangedState(state, oldState, 'inputNumber') || 
-			typeof(state['inputSelect1']) === "undefined")
+			typeof(state['inputSelect1']) === "undefined" ||
+			typeof(state['data']) === "undefined")
 			return;
 
 		let data_filt = filter_data(state['data'], filtercol = "state", filterval = state['inputSelect1']);
-		console.log('data_filt', data_filt);
 		data_filt = filter_data(data_filt, filtercol = "yield", filterval = state['inputSlider']);
-		console.log(state['inputNumber'])
 
-		hst_obj = hist(data_filt['yield'], state['inputNumber']);
-		hst_vec = hst_obj.hst;
-		hst_bin = hst_obj.bin;
+		const hst_obj = hist(data_filt['yield'], state['inputNumber']);
+		const {hst, bin} = {...hst_obj};
 
-		a = state['data_proc']['series'][0];
-		b = hst_vec;
-		console.log('a', a);
-		console.log('b', b);
-
-		if (typeof(b) === "undefined") return;
-		if (typeof(a) === "undefined") {
-			console.log('hst_vec', hst_vec);
-			state['data_proc']['series'] = [hst_vec];
-			state['data_proc']['labels'] = hst_bin.map(v => Math.round(v));
-			console.log('xx', state['data_proc']);
-			updateState('data_proc');
+		const a = state['data_proc']['series'];
+		if (typeof(a) === "object" && a[0].every(item => hst.includes(item)) && hst.every(item => a[0].includes(item)))
 			return;
-		}
 
-		if (a.every(item => b.includes(item)) && b.every(item => a.includes(item))) return;
-
-		console.log('hst_vec', hst_vec);
-		state['data_proc']['series'] = [hst_vec];
-		state['data_proc']['labels'] = hst_bin.map(v => Math.round(v));
-		console.log('xx', state['data_proc']);
+		state['data_proc']['series'] = [hst];
+		state['data_proc']['labels'] = bin.map(v => Math.round(v));
 		updateState('data_proc');
 	}
 }
