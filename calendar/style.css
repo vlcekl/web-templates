@@ -1,0 +1,139 @@
+:root {
+    --clr-bayer-mgreen: #2b6636;
+    --clr-bayer-green: #66b512;
+    --clr-bayer-lgreen: #89d329;
+    --clr-bayer-lblue: #00bcff;
+    --clr-bayer-blue: #0091df;
+    --clr-bayer-mblue: #00617f;
+    --clr-bayer-dblue: #10384f;
+    --clr-bayer-lred: #ff3162;
+    --clr-bayer-red: #d30f4b;
+
+    --clr-cal-title-background: var(--clr-bayer-blue);
+    --clr-cal-title-text: #FFF;
+    --clr-cal-weekday-background: var(--clr-bayer-lblue);
+    --clr-cal-background: white;
+    --clr-cal-text: var(--clr-bayer-dblue);
+    --clr-cal-complete: var(--clr-bayer-green);
+    --clr-cal-current: var(--clr-bayer-blue);
+    --clr-cal-planned: var(--clr-bayer-red);
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;*/
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+h1 {
+    font-family: 'Jost';
+    font-feature-settings: "ss01" 1; 
+    letter-spacing: 0.2rem;
+    background-color: white;
+    padding: 0 2rem;
+    font-size: 2rem;
+}
+
+h1::first-letter {
+    color: white;
+    font-size: 2.5rem;
+    background-color: red;
+    text-decoration: none;
+}
+
+p {
+    font: normal 1rem/1.2em serif;
+    letter-spacing: 0.03rem;
+    width: clamp(250px, 80vw, 740px);
+    padding: 0 2rem;
+    text-align: justify;
+}
+
+
+h1 + p {
+    font: normal 1rem 'Jost';
+    letter-spacing: 0.02rem;
+}
+
+
+body {
+    background-color: white;
+}
+
+.calendar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.calendar__month {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    background-color: var(--clr-cal-background);
+    color: var(--clr-cal-text);
+    outline: 1px solid var(--clr-cal-text);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.calendar__title {
+    background-color: var(--clr-cal-title-background);
+    color: var(--clr-cal-title-text);
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+.calendar__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: var(--clr-cal-weekday-background);
+    color: var(--clr-cal-title-text);
+    margin: 0.5rem;
+}
+
+.calendar__weekdays > span {
+    outline: 2px solid var(--clr-cal-text);
+    outline-offset: -1px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.2rem;
+}
+
+.calendar__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    width: 100%;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.calendar__days > div {
+    outline: 2px solid var(--clr-cal-weekday-background);
+    outline-offset: -1px;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0.2rem;
+}
+
+.calendar__day--complete {
+    background-color: var(--clr-cal-complete);
+    color: var(--clr-cal-background);
+    outline: 2px solid var(--clr-cal-complete);
+}
+
+.calendar__day--current {
+    background-color: var(--clr-cal-current);
+    color: var(--clr-cal-background);
+}
+
+.calendar__day--planned {
+    background-color: var(--clr-cal-planned);
+    color: var(--clr-cal-background);
+    outline: 2px solid var(--clr-cal-planned);
+    outline-offset: -1px;
+}

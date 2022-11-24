@@ -3,8 +3,8 @@ library(whisker)
 
 # Generate data
 
-states <- c('il', 'in', 'ia', 'mn', 'mo', 'wi', 'mi', 'oh', 'nd', 'sd', 'ne',
-            'oh', 'ky')
+states <- c('il', 'in', 'ia', 'mn', 'mo', 'wi',
+            'mi', 'oh', 'nd', 'sd', 'ne', 'ky')
 states <- sort(toupper(states))
 
 df <- data.frame(state = sample(states, 1000, replace = TRUE))

@@ -137,6 +137,7 @@ select2b.addEventListener('change', e => {
 	state['inputSelect2'] = e.target.value;
 })
 
+// Number input event listener updating state proxy
 const number1 = document.getElementById('control-1-number');
 number1.addEventListener('input', e => {
 	state['inputNumber'] = e.target.value;
@@ -151,13 +152,10 @@ function makeDetailsElement(state, oldDatalist, thisSelect) {
 	datalist.options.length = 0;  // Reset 
 
 	state.controls[thisSelect]['datalist'].forEach(g => {
-		//console.log('datalist', g, datalist.options.length);
-		//datalist.options[datalist.options.length] = new Option(g);
 		opt = new Option(g);
 		opt.setAttribute('value', g);
 		opt.setAttribute('label', g);
 		datalist.appendChild(opt);
-//			datalist.options[datalist.options.length-1].setAttribute("label", g);
 	})
 	return datalist;
 }
@@ -173,12 +171,10 @@ function populate_slider(inpElement, oldDatalist, thisSelect) {
 		oldDatalist.parentNode.replaceChild(newDatalist, oldDatalist);
 
 		// Set slider attributes
-		//const inpElement = document.createElement('input');
 		inpElement.setAttribute('min', state.controls[thisSelect].min);
 		inpElement.setAttribute('max', state.controls[thisSelect].max);
 		inpElement.setAttribute('value', state.controls[thisSelect].value);
 		inpElement.setAttribute('list', newDatalist.id);
-		//oldInpElement.parentNode.replaceChild(inpElement, oldInpElement);
 	}
 }
 
@@ -195,6 +191,12 @@ slider1a.addEventListener('change', e => {
 /* --------------
     Process data
    --------------*/
+
+// Sample array (with replacement)
+function sample(a, n = 1) {
+	//return new Array(n).fill().map(() => Math.floor(Math.random()*a.length))
+	return new Array(n).fill().map(() => a[Math.floor(Math.random()*a.length)])
+}
 
 // Filter dataset using callbacks stored in filters array
 function filter_data(data_in, filtercol, filterval) {
