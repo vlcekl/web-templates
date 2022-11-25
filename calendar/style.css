@@ -1,3 +1,5 @@
+/*@import url('https://fonts.cdnfonts.com/css/georgia');*/
+
 :root {
     --clr-bayer-mgreen: #2b6636;
     --clr-bayer-green: #66b512;
@@ -17,7 +19,8 @@
     --clr-cal-complete: var(--clr-bayer-green);
     --clr-cal-current: var(--clr-bayer-blue);
     --clr-cal-planned: var(--clr-bayer-red);
-    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;*/
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+                
 }
 
 *, ::before, ::after {
@@ -41,17 +44,20 @@ h1::first-letter {
 }
 
 p {
-    font: normal 1rem/1.2em serif;
+    font: normal 1rem/1.5em 'Georgia', serif;
     letter-spacing: 0.03rem;
     width: clamp(250px, 80vw, 740px);
     padding: 0 2rem;
-    text-align: justify;
+    columns: 150px 2;
+    column-rule: thin solid red;
+    column-gap: 3rem;
 }
-
 
 h1 + p {
     font: normal 1rem 'Jost';
     letter-spacing: 0.02rem;
+    text-align: justify;
+    columns: auto;
 }
 
 
