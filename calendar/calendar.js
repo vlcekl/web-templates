@@ -1,17 +1,6 @@
 // Overall function (to be converted to module)
 function getCalendarData(startDate, endDate) {
 
-    // Lengths of individual months (February is for non-leap year)
-    const monLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-    // Is the year leap year?
-    const leapYear = y => ((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0);
-
-    // Return length of a month adjusted for leap years
-    const monthLength = (m, y) => {
-        return monLength[m] + ((m === 1 && leapYear[y]) ? 1 : 0);
-    };
-
     // Month names
     const monthName = [
         'January', 'February', 'March', 'April', 'May', 'June', 'July',
@@ -41,10 +30,12 @@ function getCalendarData(startDate, endDate) {
     // Create array of first/last weekdays for each month
     const x = new Date();
     dayData = monthData.map(m => {
+        console.log('month data', m);
         x.setUTCFullYear(m[0]);
         x.setUTCMonth(m[1]);
         x.setUTCDate(1);
-        return [x.getUTCDay(), monthLength(m[1], m[0])];
+        let lastDay = new Date(m[0], m[1] + 1, 0).getDate();
+        return [x.getUTCDay(), lastDay];
     })
 
     return { "months": monthData, "days": dayData };
@@ -87,15 +78,26 @@ function createCalendar(calendar, data) {
 
 const calData = getCalendarData('2022-10-26 CDT', '2023-01-15 CDT');
 
-const calendar = document.querySelector('.calendar');
+const calEvents = {
+    "2022-10-28": ['interview 1', 'interview 2'],
+    "2023-01-20": ['review']
+ };
+
+const calendar = document.querySelector('.calendar__body');
 
 // Create calendar content using month template
 createCalendar(calendar, calData);
+
+// Add colors according to calEvents
 
 // Add click listener to calendar 
 calendar.addEventListener('click', e => {
     let year = parseInt(e.target.dataset.year);
     let month = parseInt(e.target.dataset.month);
     let day = parseInt(e.target.textContent);
-    console.log(year, month+1, day);
+    console.log(year, month + 1, day);
+    //alert(`${year}-${month+1}-${day}`);
 });
+
+// Create objects of day info and color selected days based on the info type
+

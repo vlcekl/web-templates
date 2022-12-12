@@ -10,22 +10,25 @@
 </head>
 <body>
     <div class="calendar">
-        <template id="calendar-month-template">
-            <div class="card calendar__month">
-                <h3 class="calendar__title"></h3>
-                <div class="calendar__weekdays">
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
+        <div class="calendar__body">
+            <template id="calendar-month-template">
+                <div class="card calendar__month">
+                    <h3 class="calendar__title"></h3>
+                    <div class="calendar__weekdays">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <div class="calendar__days">
+                    </div>
                 </div>
-                <div class="calendar__days">
-                </div>
-            </div>
-        </template>
+            </template>
+        </div>
+        <p class="calendar__instructions">Click on a day to inspect or add events</p>
     </div>
 </body>
 </html>

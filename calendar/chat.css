@@ -1,0 +1,27 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+thead th {
+  background-color: #333;
+  color: #fff;
+  font-size: 1.2em;
+  text-align: center;
+  padding: 10px 0;
+}
+
+tbody td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+tbody td:hover {
+  background-color: #eee;
+}
+
+tbody td.today {
+  background-color: #aaa;
+}
