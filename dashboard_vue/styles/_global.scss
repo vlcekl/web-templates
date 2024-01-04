@@ -1,0 +1,19 @@
+// styles/_global.scss
+@import 'colors';
+
+body {
+  font-family: Arial, sans-serif;
+  color: $BayerBlue;
+  background-color: $BayerGrey;
+}
+
+a {
+  color: $BayerLightBlue;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Add more global styles as needed...

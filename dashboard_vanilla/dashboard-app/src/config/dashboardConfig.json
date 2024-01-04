@@ -1,0 +1,29 @@
+{
+  "inputs": [
+    {
+      "name": "mean",
+      "label": "Mean",
+      "type": "number",
+      "defaultValue": 0
+    },
+    {
+      "name": "standardDeviation",
+      "label": "Standard Deviation",
+      "type": "number",
+      "defaultValue": 1
+    },
+    {
+      "name": "sampleCount",
+      "label": "Sample Count",
+      "type": "number",
+      "defaultValue": 100
+    }
+  ],
+  "outputs": [
+    {
+      "name": "meanResult",
+      "label": "Calculated Mean"
+    }
+    // Other outputs structure
+  ]
+}

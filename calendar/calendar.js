@@ -78,7 +78,7 @@ function createCalendar(calendar, data) {
 
 const calData = getCalendarData('2022-10-26 CDT', '2023-01-15 CDT');
 
-const calEvents = {
+const calEntries = {
     "2022-10-28": ['interview 1', 'interview 2'],
     "2023-01-20": ['review']
  };
@@ -100,4 +100,9 @@ calendar.addEventListener('click', e => {
 });
 
 // Create objects of day info and color selected days based on the info type
-
+function addCalendarEntries(calEntries) {
+    Object.entries(calEvents).forEach(([day, val]) => {
+        myDay = new Date(day);
+        // find element corresponding to the date
+    });
+}

@@ -1,0 +1,45 @@
+{
+  "simulation": {
+    "tabs": [
+      {
+        "id": "inputSummary",
+        "title": "Input Summary",
+        "sections": [
+          {
+            "id": "selectedParameters",
+            "title": "Selected Parameters",
+            "type": "textList"
+          },
+          {
+            "id": "pricingFunction",
+            "title": "Pricing Function Plot",
+            "type": "chart",
+            "chartType": "line"
+          },
+          {
+            "id": "targetingGeography",
+            "title": "Targeting Geography",
+            "type": "map"
+          }
+        ]
+      },
+      {
+        "id": "simulationOutputSummary",
+        "title": "Simulation Output Summary",
+        "sections": [
+          {
+            "id": "revenueSummary",
+            "title": "Revenue Summary",
+            "type": "table"
+          },
+          {
+            "id": "revenueDistribution",
+            "title": "Revenue Distribution",
+            "type": "chart",
+            "chartType": "histogram"
+          }
+        ]
+      }
+    ]
+  }
+}

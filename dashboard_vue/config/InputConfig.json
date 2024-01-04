@@ -1,0 +1,115 @@
+{
+  "simulation": {
+    "tabs": [
+      {
+        "id": "pricing",
+        "title": "Pricing",
+        "sections": [
+          {
+            "id": "businessModel",
+            "title": "Business Model",
+            "type": "select",
+            "options": ["Profit Partner 2023", "Smart Corn 2024", "Custom"],
+            "default": "Profit Partner 2023"
+          },
+          {
+            "id": "pricingUnit",
+            "title": "Pricing Unit",
+            "type": "select",
+            "options": ["per unit", "per acre", "per bushel"],
+            "default": "per unit"
+          },
+          {
+            "id": "pricingParameters",
+            "title": "Pricing Function Parameters",
+            "type": "numericInputs",
+            "parameters": [
+              { "name": "base price", "default": 100 },
+              { "name": "price floor", "default": 80 },
+              { "name": "price ceiling", "default": 150 },
+              { "name": "rebate low", "default": 5 },
+              { "name": "rebate high", "default": 10 },
+              { "name": "share low", "default": 20 },
+              { "name": "share high", "default": 30 }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "targeting",
+        "title": "Targeting",
+        "sections": [
+          {
+            "id": "geographicUnit",
+            "title": "Geographic Unit",
+            "type": "select",
+            "options": ["State", "Zone", "ABM", "County"],
+            "default": "State"
+          },
+          {
+            "id": "geography",
+            "title": "Geography",
+            "type": "multiSelect",
+            "options": ["California", "Texas", "Florida", "New York"],
+            "default": ["California", "Texas"]
+          },
+          {
+            "id": "farmSize",
+            "title": "Farm Size [acres]",
+            "type": "rangeSlider",
+            "default": [1000, 20000],
+            "min": 0,
+            "max": 50000
+          },
+          {
+            "id": "currentCustomer",
+            "title": "Current Customer",
+            "type": "checkbox",
+            "default": false
+          }
+        ]
+      },
+      {
+        "id": "enrollment",
+        "title": "Enrollment",
+        "sections": [
+          {
+            "id": "enrollmentModel",
+            "title": "Enrollment Model",
+            "type": "select",
+            "options": ["Model VP", "Random Model"],
+            "default": "Model VP"
+          },
+          {
+            "id": "probabilityThreshold",
+            "title": "Probability Threshold",
+            "type": "rangeSlider",
+            "default": [0.2, 0.8],
+            "min": 0,
+            "max": 1
+          }
+        ]
+      },
+      {
+        "id": "outcomes",
+        "title": "Outcomes",
+        "sections": [
+          {
+            "id": "percentileOfOutcomes",
+            "title": "Percentile of Outcomes",
+            "type": "rangeSlider",
+            "default": [10, 90],
+            "min": 0,
+            "max": 100
+          },
+          {
+            "id": "numberOfSamples",
+            "title": "Number of Samples",
+            "type": "number",
+            "default": 1000
+          }
+        ]
+      }
+    ]
+  }
+}

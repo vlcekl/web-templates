@@ -1,0 +1,23 @@
+// styles/_inputs.scss
+@import 'colors';
+
+input, select, button {
+  border: 1px solid $BayerBlue;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+
+  &:focus {
+    outline: none;
+    border-color: $BayerLightBlue;
+  }
+}
+
+.range-slider {
+  // Custom styles for range sliders
+}
+
+.checkbox {
+  // Custom styles for checkboxes
+}
+
+// Add more specific styles as needed...
